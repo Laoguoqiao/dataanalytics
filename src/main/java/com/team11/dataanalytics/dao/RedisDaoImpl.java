@@ -49,6 +49,7 @@ public class RedisDaoImpl {
     }
 
     public void setHash(String key, Map map){
+        LOG.info("redis is working on hash:"+key);
         redisTemplate.opsForHash().putAll(key,map);
     }
 
