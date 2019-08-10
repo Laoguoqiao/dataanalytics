@@ -3,7 +3,6 @@ package com.team11.dataanalytics.dao;
 
 import com.team11.dataanalytics.DataAnalyticsApplication;
 import com.team11.dataanalytics.pojo.User;
-import javafx.beans.binding.ObjectExpression;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
