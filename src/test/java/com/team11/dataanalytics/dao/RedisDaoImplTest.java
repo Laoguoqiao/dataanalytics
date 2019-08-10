@@ -1,6 +1,7 @@
 package com.team11.dataanalytics.dao;
 
-import com.team11.dataanalytics.DataanalyticsApplication;
+
+import com.team11.dataanalytics.DataAnalyticsApplication;
 import com.team11.dataanalytics.pojo.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = DataanalyticsApplication.class)
+@SpringBootTest(classes = DataAnalyticsApplication.class)
 public class RedisDaoImplTest {
 
     @Autowired

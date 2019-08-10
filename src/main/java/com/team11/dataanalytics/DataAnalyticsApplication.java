@@ -5,10 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 
-public class DataanalyticsApplication {
+public class DataAnalyticsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DataanalyticsApplication.class, args);
+		SpringApplication.run(DataAnalyticsApplication.class, args);
 	}
 
 
