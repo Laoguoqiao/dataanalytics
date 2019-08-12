@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login! | </title>
+
+    <link href="../static/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="../static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="../static/vendors/nprogress/nprogress.css" rel="stylesheet">
+
+    <link href="../static/vendors/animate.css/animate.min.css" rel="stylesheet">
+
+    <link href="../static/build/css/custom.min.css" rel="stylesheet">
+
+
+</head>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+</script>
+<body class="login">
+<div>
+    <a class="hiddenanchor" id="signup"></a>
+    <a class="hiddenanchor" id="signin"></a>
+    <div class="login_wrapper">
+        <div class="animate form login_form">
+            <section class="login_content">
+                <form>
+                    <h1>Login Form</h1>
+                    <div>
+                        <input id="username" type="text" class="form-control" placeholder="Username" required="" />
+                    </div>
+                    <div>
+                        <input id="password" type="password" class="form-control" placeholder="Password" required="" />
+                    </div>
+                    <div>
+                        <a class="btn btn-default submit" id="login_btn" >Log in</a>
+                        <a class="reset_pass" href="#">Lost your password?</a>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="separator">
+                        <p class="change_link">New to site?
+                            <a href="#signup" class="to_register"> Create Account </a>
+                        </p>
+                        <div class="clearfix"></div>
+                        <br />
+                        <div>
+                            <h1><i class="fa fa-paw"></i> Data Analystics!</h1>
+                            <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+        <div id="register" class="animate form registration_form">
+            <section class="login_content">
+                <form>
+                    <h1>Create Account</h1>
+                    <div>
+                        <input id="r_username" type="text" class="form-control" placeholder="Username" required="" />
+                    </div>
+                    <div>
+                        <input id="r_password" type="password" class="form-control" placeholder="Password" required="" />
+                    </div>
+                    <div>
+                        <input id="r_c_password" type="password" class="form-control" placeholder="ConfirmPassword" required="" />
+                    </div>
+                    <div>
+                        <a class="btn btn-default submit" id="register_btn">Submit</a>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="separator">
+                        <p class="change_link">Already a member ?
+                            <a href="#signin" class="to_register"> Log in </a>
+                        </p>
+                        <div class="clearfix"></div>
+                        <br />
+                        <div>
+                            <h1><i class="fa fa-paw"></i> Data Analystics!</h1>
+                            <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+         $("#login_btn").click(function(){
+
+             var username = $.trim($("#username").val());
+             var password = $.trim($("#password").val());
+             if(username == ""){
+                 alert("请输入用户名");
+                 return false;
+             }else if(password == ""){
+                 alert("请输入密码");
+                 return false;
+             }
+             //ajax去服务器端校验
+             var user= {"account":username,"password":password,"uid":""};
+             var userStr=JSON.stringify(user);
+             //alert(userStr);
+             $.ajax({
+                 type:"POST",
+                 url:"http://127.0.0.1:8081/api/user/login",
+                 data:userStr,
+                 dataType:'text',
+                 contentType: "application/json; charset=utf-8",
+                 success:function(msg){
+                     alert(msg);
+                     if(msg=="Success"){
+                         window.location.href = "index.html";
+                     }else{
+                         alert("登录失败，请重试!");
+                     }
+                 }
+             });
+         });
+
+         $("#register_btn").click(function(){
+
+             var username = $.trim($("#r_username").val());
+             var password = $.trim($("#r_password").val());
+             var c_password = $.trim($("#r_c_password").val());
+             if(username == ""){
+                 alert("请输入用户名");
+                 return false;
+             }else if(password == ""){
+                 alert("请输入密码");
+                 return false;
+             }else if(c_password == ""){
+                 alert("请确认密码")
+                 return false;
+             }
+             //ajax去服务器端校验
+             var user= {"account":username,"password":password,"uid":""};
+             var userStr=JSON.stringify(user);
+             //alert(userStr);
+             $.ajax({
+                 type:"POST",
+                 url:"http://127.0.0.1:8081/api/user/users",
+                 data:userStr,
+                 dataType:'text',
+                 contentType: "application/json; charset=utf-8",
+                 success:function(msg){
+                     alert(msg);
+                     if(msg=="Failed"){
+                         alert("注册失败，请重试!");
+                     }else{
+                         window.location.href = "index.html";
+                     }
+                 }
+             });
+         });
+</script>
+</body>
+</html>
