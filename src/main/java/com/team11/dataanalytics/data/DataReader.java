@@ -9,14 +9,35 @@ import java.util.Map;
 public class DataReader {
     private String root;
     private String symbol;
+
+    public String[] getSymbols() {
+        return symbols;
+    }
+
+    private String[] symbols;
     private List<Data> datas = new ArrayList<Data>();
     private Map<String, List<Data>> all_datas = new HashMap<String, List<Data>>();
 
     public DataReader(String root) {
         this.root = root;
+        this.symbols = new File(root).list();
     }
 
+    public List<Data> read_other(String other){
+        String filepath = this.root + "OtherData\\" ;
+        if(this.read_csv(filepath+other+".csv", true))
+            return this.datas;
+        else
+            return new ArrayList<Data>();
+    }
+
+    // Set default value for other
     public boolean read_csv(String filepath){
+        return this.read_csv(filepath, false);
+    }
+
+    // Read csv and save data into datas
+    public boolean read_csv(String filepath, boolean other){
         // Get data of one csv
         try {
             BufferedReader csvReader = new BufferedReader(new FileReader(filepath));
@@ -33,10 +54,19 @@ public class DataReader {
                 String[] data = row.split(",");
                 // do something with the data
                 Data one;
-                if(daily) {
+
+                // if other data
+                if (other){
+                    one = new DailyData(data[0], data[1],data[2],data[3],data[4],data[5],
+                            data[6],data[7],data[8],data[9]);
+                }
+                // if daily data
+                else if(daily) {
                     one = new DailyData(this.symbol, data[0], data[1], data[2], data[3], data[4], data[5],
                         data[6], data[7], data[8]);
-                } else
+                }
+                // else minutes data
+                else
                     one = new MinutesData(this.symbol, data[0], data[1],data[2],data[3],data[4],data[5],
                         data[6],data[7],data[8],data[9]);
                 this.datas.add(one);
@@ -52,9 +82,9 @@ public class DataReader {
         return false;
     }
 
-    public Map<String, List<Data>> read(String symbol, String date, String time){
+    public List<Data> read(String symbol){
         this.symbol = symbol;
-        String filepath = this.root + symbol + '\\';
+        String filepath = this.root + "ProcessData\\" + symbol + '\\';
         String[] filenames = new File(filepath).list();
         for(String filename : filenames){
             if(this.read_csv(filepath+filename)) {
@@ -67,6 +97,46 @@ public class DataReader {
             this.datas = new ArrayList<Data>();
             //return this.all_datas;
         }
-        return this.all_datas;
+        return this.all_datas.get('1');
+    }
+
+    public List<Data> GetOneMinutes(){
+        return this.all_datas.get("1");
+    }
+    public List<Data> GetThreeMinutes(){
+        return this.all_datas.get("3");
+    }
+    public List<Data> GetFiveMinutes(){
+        return this.all_datas.get("5");
+    }
+    public List<Data> GetTenMinutes(){
+        return this.all_datas.get("10");
+    }
+    public List<Data> GetHalfHour(){
+        return this.all_datas.get("30");
+    }
+    public List<Data> GetOneHour(){
+        return this.all_datas.get("60");
+    }
+    public List<Data> GetTwoHours(){
+        return this.all_datas.get("120");
+    }
+    public List<Data> GetFiveHours(){
+        return this.all_datas.get("300");
+    }
+    public List<Data> GetOneDay(){
+        return this.all_datas.get("1_Day");
+    }
+    public List<Data> GetThreeDay(){
+        return this.all_datas.get("3_Day");
+    }
+    public List<Data> GetFiveDay(){
+        return this.all_datas.get("5_Day");
+    }
+    public List<Data> GetTenDay(){
+        return this.all_datas.get("10_Day");
+    }
+    public List<Data> GetOneMon(){
+        return this.all_datas.get("21_Day");
     }
 }
