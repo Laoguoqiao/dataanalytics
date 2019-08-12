@@ -35,7 +35,7 @@ public class RedisDaoImpl {
     }
 
     public void setList(String key, List<Object> list){
-
+      LOG.info("start to cache redis:"+key);
          redisTemplate.opsForList().rightPushAll(key,list);
     }
 
