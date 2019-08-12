@@ -27,7 +27,7 @@ public class RedisConfig {
         RedisTemplate redisTemplate = new StringRedisTemplate(redisConnectionFactory);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new FastJsonRedisSerializer<Object>(Object.class));
-        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        redisTemplate.setHashKeySerializer(new FastJsonRedisSerializer<Object>(Object.class));
         redisTemplate.setHashValueSerializer(new JdkSerializationRedisSerializer());
         return redisTemplate;
     }
