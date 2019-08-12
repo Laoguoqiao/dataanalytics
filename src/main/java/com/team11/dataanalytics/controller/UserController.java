@@ -1,5 +1,6 @@
 package com.team11.dataanalytics.controller;
 
+import com.team11.dataanalytics.annotation.SystemLog;
 import com.team11.dataanalytics.domain.User;
 import com.team11.dataanalytics.service.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
@@ -25,6 +27,7 @@ public class UserController {
         return userService.getUserList();
     }
 
+    @SystemLog("添加用户")
     @CrossOrigin
     @ApiOperation(value="添加用户", notes="添加用户")
     @PostMapping(value = "/users")
@@ -44,7 +47,7 @@ public class UserController {
     {
         return userService.getUser(id);
     }
-
+    @SystemLog("删除用户")
     @ApiOperation(value="删除用户", notes="根据id删除用户")
     @DeleteMapping(value = "/users/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -63,11 +66,12 @@ public class UserController {
 
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public Object login(@RequestBody User user)
+    public Object login(@RequestBody User user, HttpServletRequest  request)
     {
         boolean verify=userService.verifyUser(user);
         if(verify)
         {
+            request.getSession().setAttribute("user",user.getAccount());
             return "Success";
         }
         else
