@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/ico" href="../static/images/favicon.ico"/>
+
+    <title>Data Analytics! | </title>
+
+    <link rel="stylesheet" type="text/css" href="../static/vendors/bootstrap/dist/css/bootstrap.min.css"
+          th:href="@{/vendors/bootstrap/dist/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" href="../static/vendors/font-awesome/css/font-awesome.min.css"
+          th:href="@{/vendors/font-awesome/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" type="text/css" href="../static/vendors/nprogress/nprogress.css"
+          th:href="@{/vendors/nprogress/nprogress.css}"/>
+    <link rel="stylesheet" type="text/css" href="../static/vendors/iCheck/skins/flat/green.css"
+          th:href="@{/vendors/iCheck/skins/flat/green.css}"/>
+    <link rel="stylesheet" type="text/css"
+          href="../static/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css"
+          th:href="@{/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css}"/>
+    <link rel="stylesheet" type="text/css" href="../static/vendors/jqvmap/dist/jqvmap.min.css"
+          th:href="@{/vendors/jqvmap/dist/jqvmap.min.css}"/>
+    <link rel="stylesheet" type="text/css" href="../static/vendors/bootstrap-daterangepicker/daterangepicker.css"
+          th:href="@{/vendors/bootstrap-daterangepicker/daterangepicker.css}"/>
+    <link rel="stylesheet" type="text/css" href="../static/build/css/custom.min.css"
+          th:href="@{/build/css/custom.min.css}"/>
+    <script type="text/javascript" th:src="@{/js/echarts.min.js}"></script>
+</head>
+
+<body class="nav-md">
+<div class="container body">
+    <div class="main_container">
+        <div class="col-md-3 left_col">
+            <div class="left_col scroll-view">
+                <div class="navbar nav_title" style="border: 0;">
+                    <a th:href="@{/toIndex}" class="site_title"><i class="fa fa-paw"></i>
+                        <span>Data Analytics!</span></a>
+                </div>
+
+                <div class="clearfix"></div>
+
+                <!-- menu profile quick info -->
+                <div class="profile clearfix">
+                    <div class="profile_pic">
+                        <img src="images/img.jpg" alt="..." class="img-circle profile_img">
+                    </div>
+                    <div class="profile_info">
+                        <span>Welcome,</span>
+                        <h2>John Doe</h2>
+                    </div>
+                </div>
+                <br/>
+                <!-- sidebar menu -->
+                <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                    <div class="menu_section">
+                        <h3>General</h3>
+                        <ul class="nav side-menu">
+                            <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a th:href="@{/toIndex}">EChart</a></li>
+                                    <!--<li><a th:href="@{/toIndex3}">HomeChart2</a></li>-->
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-edit"></i> Account Management <span
+                                    class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+
+                                    <li><a th:href="@{/toProfile}">User Profile</a></li>
+                                    <li><a th:href="@{/toForm_wizards}">Generate Portfolio</a></li>
+                                </ul>
+                            </li>
+
+                            <li><a href="tables_dynamic.html"><i class="fa fa-table"></i> Table View <span
+                                    class="fa fa-chevron-down"></span></a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+                <!-- /sidebar menu -->
+
+                <!-- /menu footer buttons -->
+                <div class="sidebar-footer hidden-small">
+
+                    <a data-toggle="tooltip" data-placement="top" title="Logout" th:href="@{/toLogin}">
+                        <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- top navigation -->
+        <div class="top_nav">
+            <div class="nav_menu">
+                <nav>
+                    <div class="nav toggle">
+                        <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                    </div>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="">
+                            <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown"
+                               aria-expanded="false">
+                                <img src="images/img.jpg" alt="">John Doe
+                                <span class=" fa fa-angle-down"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                <li><a th:href="@{/toProfile}"> Profile</a></li>
+
+                                <li><a th:href="@{/toLogin}"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <!-- /top navigation -->
+    </div>
+
+    <!--page content-->
+    <div class="right_col" role="main">
+
+        <!-- top tiles -->
+        <div class="row tile_count">
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Total Users</span>
+                <div class="count">2500</div>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-clock-o"></i> Average Time</span>
+                <div class="count">123.50</div>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Total Males</span>
+                <div class="count green">2,500</div>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Total Females</span>
+                <div class="count">4,567</div>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Total Collections</span>
+                <div class="count">2,315</div>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <span class="count_top"><i class="fa fa-user"></i> Total Connections</span>
+                <div class="count">7,325</div>
+            </div>
+        </div>
+        <!-- /top tiles -->
+
+        <div class="">
+            <div class="page-title">
+                <div class="title_left">
+                    <h3>Echarts
+                        <small>Some examples to get you started</small>
+                    </h3>
+                </div>
+
+                <div class="title_right">
+                    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                        <div class="input-group" style="padding-right: 50px;">
+                            <input type="text" class="form-control" placeholder="Search for...">
+                            <span class="input-group-btn">
+                      <button class="btn btn-default" type="button">Go!</button>
+                    </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="row">
+                <div class="col-md-8 col-sm-8 col-xs-12" style="width: 975px;height:442.8px;">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>Bar Graph</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                       aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Settings 1</a>
+                                        </li>
+                                        <li><a href="#">Settings 2</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div id="echart1" style="width: 934px;height:350px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--page content-->
+</div>
+
+<!--script-->
+
+<script type="text/javascript">
+    var upColor = '#00da3c';
+    var downColor = '#ec0000';
+    function splitData(rawData){
+        var categoryData = [];
+        var values = [];
+        var volumes = [];
+        for(var i=0; i < rawData.length; i++){
+            categoryData.push(rawData[i].splice(0, 1)[0]);
+            values.push(rawData[i]);
+            volumes.push([i, rawData[i][4], rawData[i][0] > rawData[i][1] ? 1: -1]);
+        }
+        return{
+            categoryData: categoryData,
+            values: values,
+            volumes: volumes
+        };
+    }
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById("echart1"));
+
+    $.get('data.json').done(function(rawdata){
+        var data = splitData(rawdata);
+        myChart.setOption(option = {
+            backgroundColor: '#fff',
+            animation: false,
+            legend: {
+                bottom: 10,
+                left: 'center',
+                data: ['Dow-Jones index', 'MA5', 'MA10', 'MA20', 'MA30']
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross'
+                },
+                backgroundColor: 'rgba(245, 245, 245, 0.8)',
+                borderWidth: 1,
+                borderColor: '#ccc',
+                padding: 10,
+                textStyle: {
+                    color: '#000'
+                },
+                position: function (pos, params, el, elRect, size) {
+                    var obj = {top: 10};
+                    obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
+                    return obj;
+                }
+                // extraCssText: 'width: 170px'
+            },
+            axisPointer: {
+                link: {xAxisIndex: 'all'},
+                label: {
+                    backgroundColor: '#777'
+                }
+            },
+            toolbox: {
+                feature: {
+                    dataZoom: {
+                        yAxisIndex: false
+                    },
+                    brush: {
+                        type: ['lineX', 'clear']
+                    }
+                }
+            },
+            brush: {
+                xAxisIndex: 'all',
+                brushLink: 'all',
+                outOfBrush: {
+                    colorAlpha: 0.1
+                }
+            },
+            visualMap: {
+                show: false,
+                seriesIndex: 5,
+                dimension: 2,
+                pieces: [{
+                    value: 1,
+                    color: downColor
+                }, {
+                    value: -1,
+                    color: upColor
+                }]
+            },
+            grid: [
+                {
+                    left: '10%',
+                    right: '8%',
+                    height: '50%'
+                },
+                {
+                    left: '10%',
+                    right: '8%',
+                    top: '63%',
+                    height: '16%'
+                }
+            ],
+            xAxis: [
+                {
+                    type: 'category',
+                    data: data.categoryData,
+                    scale: true,
+                    boundaryGap : false,
+                    axisLine: {onZero: false},
+                    splitLine: {show: false},
+                    splitNumber: 20,
+                    min: 'dataMin',
+                    max: 'dataMax',
+                    axisPointer: {
+                        z: 100
+                    }
+                },
+                {
+                    type: 'category',
+                    gridIndex: 1,
+                    data: data.categoryData,
+                    scale: true,
+                    boundaryGap : false,
+                    axisLine: {onZero: false},
+                    axisTick: {show: false},
+                    splitLine: {show: false},
+                    axisLabel: {show: false},
+                    splitNumber: 20,
+                    min: 'dataMin',
+                    max: 'dataMax'
+                }
+            ],
+            yAxis: [
+                {
+                    scale: true,
+                    splitArea: {
+                        show: true
+                    }
+                },
+                {
+                    scale: true,
+                    gridIndex: 1,
+                    splitNumber: 2,
+                    axisLabel: {show: false},
+                    axisLine: {show: false},
+                    axisTick: {show: false},
+                    splitLine: {show: false}
+                }
+            ],
+            dataZoom: [
+                {
+                    type: 'inside',
+                    xAxisIndex: [0, 1],
+                    start: 98,
+                    end: 100
+                },
+                {
+                    show: true,
+                    xAxisIndex: [0, 1],
+                    type: 'slider',
+                    top: '85%',
+                    start: 98,
+                    end: 100
+                }
+            ],
+            series: [
+                {
+                    name: 'Dow-Jones index',
+                    type: 'candlestick',
+                    data: data.values,
+                    itemStyle: {
+                        normal: {
+                            color: upColor,
+                            color0: downColor,
+                            borderColor: null,
+                            borderColor0: null
+                        }
+                    },
+                    tooltip: {
+                        formatter: function (param) {
+                            param = param[0];
+                            return [
+                                'Date: ' + param.name + '<hr size=1 style="margin: 3px 0">',
+                                'Open: ' + param.data[0] + '<br/>',
+                                'Close: ' + param.data[1] + '<br/>',
+                                'Lowest: ' + param.data[2] + '<br/>',
+                                'Highest: ' + param.data[3] + '<br/>'
+                            ].join('');
+                        }
+                    }
+                },
+                {
+                    name: 'MA5',
+                    type: 'line',
+                    data: calculateMA(5, data),
+                    smooth: true,
+                    lineStyle: {
+                        normal: {opacity: 0.5}
+                    }
+                },
+                {
+                    name: 'MA10',
+                    type: 'line',
+                    data: calculateMA(10, data),
+                    smooth: true,
+                    lineStyle: {
+                        normal: {opacity: 0.5}
+                    }
+                },
+                {
+                    name: 'MA20',
+                    type: 'line',
+                    data: calculateMA(20, data),
+                    smooth: true,
+                    lineStyle: {
+                        normal: {opacity: 0.5}
+                    }
+                },
+                {
+                    name: 'MA30',
+                    type: 'line',
+                    data: calculateMA(30, data),
+                    smooth: true,
+                    lineStyle: {
+                        normal: {opacity: 0.5}
+                    }
+                },
+                {
+                    name: 'Volume',
+                    type: 'bar',
+                    xAxisIndex: 1,
+                    yAxisIndex: 1,
+                    data: data.volumes
+                }
+            ]
+        }, true);
+        myChart.dispatchAction({
+            type: 'brush',
+            areas: [
+                {
+                    brushType: 'lineX',
+                    coordRange: ['2016-06-02', '2016-06-20'],
+                    xAxisIndex: 0
+                }
+            ]
+        });
+
+    })
+</script>
+<!--script-->
+<!-- jQuery -->
+<script type="text/javascript" th:src="@{/vendors/jquery/dist/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/vendors/bootstrap/dist/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/vendors/fastclick/lib/fastclick.js}"></script>
+<script type="text/javascript" th:src="@{/vendors/nprogress/nprogress.js}"></script>
+<!--<script type="text/javascript" th:src="@{/vendors/echarts/dist/echarts.min.js}"></script>-->
+<!--<script type="text/javascript" th:src="@{/vendors/echarts/map/js/world.js}"></script>-->
+
+<!-- Custom Theme Scripts -->
+<script type="text/javascript" th:src="@{/build/js/custom.min.js}"></script>
+
+</body>
+</html>
