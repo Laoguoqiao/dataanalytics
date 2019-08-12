@@ -35,7 +35,7 @@ public class RedisDaoImpl {
     }
 
     public void setList(String key, List<Object> list){
-
+      LOG.info("start to cache redis:"+key);
          redisTemplate.opsForList().rightPushAll(key,list);
     }
 
@@ -49,6 +49,7 @@ public class RedisDaoImpl {
     }
 
     public void setHash(String key, Map map){
+        LOG.info("redis is working on hash:"+key);
         redisTemplate.opsForHash().putAll(key,map);
     }
 
