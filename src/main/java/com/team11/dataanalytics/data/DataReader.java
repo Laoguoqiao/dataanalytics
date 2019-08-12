@@ -52,7 +52,7 @@ public class DataReader {
         return false;
     }
 
-    public Map<String, List<Data>> read(String symbol, String date, String time){
+    public List<Data> read(String symbol, String date, String time){
         this.symbol = symbol;
         String filepath = this.root + symbol + '\\';
         String[] filenames = new File(filepath).list();
@@ -67,7 +67,7 @@ public class DataReader {
             this.datas = new ArrayList<Data>();
             //return this.all_datas;
         }
-        return this.all_datas;
+        return this.all_datas.get('1');
     }
 
     public List<Data> GetOneMinutes(){
