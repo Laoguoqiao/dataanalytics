@@ -19,4 +19,9 @@ public class GetDataUtilTest {
     public void read() {
         GetDataUtil.read("target/classes/ProcessedData/a/1.csv");
     }
+
+    @Test
+    public void readStockData() {
+        GetDataUtil.readStockData("target/classes/ProcessedData/lastday.csv");
+    }
 }

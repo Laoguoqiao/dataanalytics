@@ -30,12 +30,22 @@ public class TestDataController {
         return GetDataUtil.getDataWith3Min(symbol);
     }
 
-    @ApiOperation(value="获取股票分钟数据", notes="根据symbol获取股票分钟数据")
+    @ApiOperation(value="获取股票5分钟数据", notes="根据symbol获取股票5分钟数据")
     @GetMapping(value = "/data/5/{symbol}")
     @ResponseStatus(HttpStatus.OK)
     public Object getDataWith5Min(@PathVariable("symbol") String symbol) throws NotFoundException
     {
         return GetDataUtil.getDataWith5Min(symbol);
+    }
+
+    @CrossOrigin
+    @ApiOperation(value="获取昨日所有股票数据", notes="获取昨日所有股票数据")
+    @GetMapping(value = "/data/stocks")
+    @ResponseStatus(HttpStatus.OK)
+    public Object getStocksData() throws NotFoundException
+    {
+        System.out.println("LASTDAY");
+        return GetDataUtil.getStockData();
     }
 
     @ApiOperation(value="测试")
