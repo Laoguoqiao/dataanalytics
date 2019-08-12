@@ -69,4 +69,44 @@ public class DataReader {
         }
         return this.all_datas;
     }
+
+    public List<Data> GetOneMinutes(){
+        return this.all_datas.get("1");
+    }
+    public List<Data> GetThreeMinutes(){
+        return this.all_datas.get("3");
+    }
+    public List<Data> GetFiveMinutes(){
+        return this.all_datas.get("5");
+    }
+    public List<Data> GetTenMinutes(){
+        return this.all_datas.get("10");
+    }
+    public List<Data> GetHalfHour(){
+        return this.all_datas.get("30");
+    }
+    public List<Data> GetOneHour(){
+        return this.all_datas.get("60");
+    }
+    public List<Data> GetTwoHours(){
+        return this.all_datas.get("120");
+    }
+    public List<Data> GetFiveHours(){
+        return this.all_datas.get("300");
+    }
+    public List<Data> GetOneDay(){
+        return this.all_datas.get("1_Day");
+    }
+    public List<Data> GetThreeDay(){
+        return this.all_datas.get("3_Day");
+    }
+    public List<Data> GetFiveDay(){
+        return this.all_datas.get("5_Day");
+    }
+    public List<Data> GetTenDay(){
+        return this.all_datas.get("10_Day");
+    }
+    public List<Data> GetOneMon(){
+        return this.all_datas.get("21_Day");
+    }
 }
