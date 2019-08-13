@@ -98,8 +98,17 @@
 			<version>2.0</version>
 		</dependency>
 
+
+		<!--Spring cloud feign-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+			<version>2.1.2.RELEASE</version>
+		</dependency>
+
+
 	</dependencies>
->>>>>>> ac196cc8d1c7e4bf40f4e3fe11c3ec500a2ed10f
+
 
 	<build>
 		<plugins>

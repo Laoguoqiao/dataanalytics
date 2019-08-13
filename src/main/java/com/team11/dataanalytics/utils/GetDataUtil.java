@@ -4,16 +4,20 @@ import com.csvreader.CsvReader;
 import com.team11.dataanalytics.domain.Portfolio;
 import com.team11.dataanalytics.domain.StockData;
 import com.team11.dataanalytics.domain.TestData;
+
 import com.team11.dataanalytics.openfeign.client.PythonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class GetDataUtil {
 
+
     @Autowired
     private PythonClient pythonClient;
+
 
     public static ArrayList<TestData> getDataWith1Min(String symbol)
     {
