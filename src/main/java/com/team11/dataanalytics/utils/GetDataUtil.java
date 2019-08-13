@@ -1,7 +1,6 @@
 package com.team11.dataanalytics.utils;
 
 import com.csvreader.CsvReader;
-import com.team11.dataanalytics.data.MinutesData;
 import com.team11.dataanalytics.domain.MinuteData;
 import com.team11.dataanalytics.domain.Portfolio;
 import com.team11.dataanalytics.domain.StockData;
@@ -17,16 +16,15 @@ import java.util.ArrayList;
 public class GetDataUtil {
 
 
-    public static ArrayList<MinuteData> getDataWith1Min(String symbol)
-
+    
 
     @Autowired
     private PythonClient pythonClient;
 
 
-    public static ArrayList<MinutesData> getDataWith1Min(String symbol)
+    public static ArrayList<MinuteData> getDataWith1Min(String symbol)
     {
-        ArrayList<MinutesData> data=new ArrayList<>();
+        ArrayList<MinuteData> data=new ArrayList<>();
         //读取文件data
         String filepath="target/classes/ProcessedData/"+symbol+"/1.csv";
         data = GetDataUtil.readMinuteData(filepath);
