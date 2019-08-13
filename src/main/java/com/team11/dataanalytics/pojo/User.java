@@ -1,21 +1,37 @@
 package com.team11.dataanalytics.pojo;
 
 import java.io.Serializable;
+import javax.persistence.*;
+@Entity
+@Table(name="user")
+public class User implements Serializable{
 
+//    private static final long serialVersionUID = 5234785573043148908L;
 
-public class User implements Serializable {
+    @Id
+    @Column(name="id")
+    @GeneratedValue(strategy =  GenerationType.IDENTITY)
+    private Integer userId;
 
-    private static final long serialVersionUID = 5234785573043148908L;
-
-    private long userId;
-
+    @Column(name="account")
     private String userName;
 
-    public long getUserId() {
+    @Column(name="password")
+    private String password;
+
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

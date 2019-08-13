@@ -1,25 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <!-- Meta, title, CSS, favicons, etc. -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Data Analytics! | </title>
 
-    <!-- Bootstrap -->
-    <link href="../static/login_css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="../static/login_css/font-awesome.min.css" rel="stylesheet">
-    <!-- NProgress -->
-    <link href="../static/login_css/nprogress.css" rel="stylesheet">
-    <!-- Animate.css -->
-    <link href="../static/login_css/animate.min.css" rel="stylesheet">
 
-    <!-- Custom Theme Style -->
-    <link href="../static/login_css/custom.min.css" rel="stylesheet">
+    <link rel="stylesheet"  type="text/css" href="../static/vendors/bootstrap/dist/css/bootstrap.min.css" th:href="@{/vendors/bootstrap/dist/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" href="../static/vendors/font-awesome/css/font-awesome.min.css" th:href="@{/vendors/font-awesome/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" type="text/css" href="../static/vendors/nprogress/nprogress.css" th:href="@{/vendors/nprogress/nprogress.css}"/>
+    <link rel="stylesheet" type="text/css" href="../static/vendors/animate.css/animate.min.css" th:href="@{/vendors/animate.css/animate.min.css}"/>
+    <link rel="stylesheet" type="text/css" href="../static/build/css/custom.min.css" th:href="@{/build/css/custom.min.css}"/>
+
+
 </head>
 
 <body class="login">
@@ -30,16 +26,16 @@
     <div class="login_wrapper">
         <div class="animate form login_form">
             <section class="login_content">
-                <form>
+                <form name="form" action="/loginVerify" method="post">
                     <h1>Login Form</h1>
                     <div>
-                        <input type="text" class="form-control" placeholder="Username" required="" />
+                        <input type="text" id="username" name="username" class="form-control" placeholder="Username" required="" />
                     </div>
                     <div>
-                        <input type="password" class="form-control" placeholder="Password" required="" />
+                        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="" />
                     </div>
                     <div>
-                        <a class="btn btn-default submit" href="index.html">Log in</a>
+                        <input class="btn btn-default submit" type="submit" value="Log in"/>
                         <a class="reset_pass" href="#">Lost your password?</a>
                     </div>
 
@@ -64,19 +60,19 @@
 
         <div id="register" class="animate form registration_form">
             <section class="login_content">
-                <form>
+                <form name="form2" action="/addUser" method="post" onsubmit="return verify()">
                     <h1>Create Account</h1>
                     <div>
-                        <input type="text" class="form-control" placeholder="Username" required="" />
+                        <input type="text" id="newusername" name="newusername"  class="form-control" placeholder="Username" required="" />
+                    </div>
+                    <!--<div>-->
+                        <!--<input type="email" class="form-control" placeholder="Email" required="" />-->
+                    <!--</div>-->
+                    <div>
+                        <input type="password" id="newuserpassword" name="newuserpassword" class="form-control" placeholder="Password" required="" />
                     </div>
                     <div>
-                        <input type="email" class="form-control" placeholder="Email" required="" />
-                    </div>
-                    <div>
-                        <input type="password" class="form-control" placeholder="Password" required="" />
-                    </div>
-                    <div>
-                        <a class="btn btn-default submit" href="index.html">Submit</a>
+                        <button class="btn btn-default submit" type="submit">Submit</button>
                     </div>
 
                     <div class="clearfix"></div>
@@ -90,8 +86,7 @@
                         <br />
 
                         <div>
-                            <h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
-                            <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
+                            <h1><i class="fa fa-paw"></i> Data Analytics!</h1>
                         </div>
                     </div>
                 </form>
@@ -99,5 +94,18 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    function verify(){
+        if(document.getElementById("newusername").value==""){
+            alert("user name cannot be null!");
+            return false;
+        }else if(document.getElementById("newuserpassword").value==""){
+            alert("password cannot be null!");
+            return false;
+        }else{
+            return true;
+        }
+    }
+</script>
 </body>
 </html>
