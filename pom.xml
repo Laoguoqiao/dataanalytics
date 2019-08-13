@@ -85,7 +85,6 @@
 		</dependency>
 
 	</dependencies>
->>>>>>> ac196cc8d1c7e4bf40f4e3fe11c3ec500a2ed10f
 
 	<build>
 		<plugins>
