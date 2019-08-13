@@ -34,7 +34,7 @@ public class DataReaderTest {
 
     @Test
     public void pythonclient(){
-        String result = pythonClient.pythonGetDataBySymbol("a");
+        String result = pythonClient.pythonGetDataBySymbolSlice("a","d");
         Map data = (Map) JSONObject.parse(result);
         System.out.println(data.get("Open"));
     }

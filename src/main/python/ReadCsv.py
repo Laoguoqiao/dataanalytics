@@ -19,9 +19,10 @@ class ReadCsv :
 
     def get_data_by_symbol(self, symbol) :
         filename = self.root + 'ProcessedData\\' + symbol + '\\*.csv'
+        print(filename)
         filenames = glob(filename)
         for name in filenames:
-            print(name)
+            #print(name)
             df = pd.read_csv(name)
             return df.to_json()
 

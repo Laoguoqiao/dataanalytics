@@ -15,4 +15,6 @@ public interface PythonClient {
     String pythonAnalysisData(Data data);
     @RequestMapping(value = "/getDataBySymbol", method = RequestMethod.POST, consumes="application/json")
     String pythonGetDataBySymbol(String symbol);
+    @RequestMapping(value = "/getDataBySymbolSlice", method = RequestMethod.POST, consumes="application/json")
+    String pythonGetDataBySymbolSlice(String symbol, String slice);
 }
