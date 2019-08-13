@@ -1,5 +1,7 @@
 package com.team11.dataanalytics.data;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.team11.dataanalytics.DataAnalyticsApplication;
 import com.team11.dataanalytics.openfeign.client.PythonClient;
 import org.junit.Assert;
@@ -9,13 +11,17 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.ResourceUtils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DataAnalyticsApplication.class)
 public class DataReaderTest {
-    private String root = "C:\\Users\\宝是宝藏的宝\\Desktop\\learning\\Trading_Strategy\\DataAnalytics\\Data Analytics\\";
+    private String root = "ProcessedData/";
     private DataReader dataReader;
 
     @Autowired
@@ -29,7 +35,15 @@ public class DataReaderTest {
     @Test
     public void pythonclient(){
         String result = pythonClient.pythonGetDataBySymbol("a");
-        System.out.println(result);
+        Map data = (Map) JSONObject.parse(result);
+        System.out.println(data.get("Open"));
+    }
+
+    @Test
+    public void checkPath(){
+        String path ="target/classes/ProcessedData/" + "a" +"/";
+        String[] filenames = new File(path).list();
+        System.out.println(filenames[0]);
     }
 
     @Test
