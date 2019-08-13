@@ -84,6 +84,7 @@
 			<version>2.0</version>
 		</dependency>
 
+<<<<<<< HEAD
 		<!--Spring cloud feign-->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -91,6 +92,8 @@
 			<version>2.1.2.RELEASE</version>
 		</dependency>
 
+=======
+>>>>>>> 610a2b9b1bd3dd0d19fdadd93c8e498b9ad12635
 	</dependencies>
 >>>>>>> ac196cc8d1c7e4bf40f4e3fe11c3ec500a2ed10f
 
