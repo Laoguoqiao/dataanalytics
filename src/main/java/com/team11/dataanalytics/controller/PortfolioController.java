@@ -1,5 +1,6 @@
 package com.team11.dataanalytics.controller;
 
+import com.team11.dataanalytics.annotation.SystemLog;
 import com.team11.dataanalytics.domain.Portfolio;
 import com.team11.dataanalytics.domain.Stock;
 import com.team11.dataanalytics.service.PortfolioService;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.util.List;
 
 @RestController
@@ -26,6 +28,7 @@ public class PortfolioController {
         return portfolioService.getPortfolioList();
     }
 
+    @SystemLog("添加投资组合")
     @ApiOperation(value="添加投资组合", notes="添加投资组合")
     @PostMapping(value = "/stocks")
     @ResponseStatus(HttpStatus.CREATED)
@@ -41,6 +44,7 @@ public class PortfolioController {
         return portfolioService.getPortfolioByUid(uid);
     }
 
+    @SystemLog("删除投资组合")
     @ApiOperation(value="删除投资组合", notes="根据id删除投资组合")
     @DeleteMapping(value = "/stocks/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -49,6 +53,7 @@ public class PortfolioController {
         portfolioService.deletePortfolio(id);
     }
 
+    @SystemLog("更新投资组合")
     @ApiOperation(value="更新投资组合", notes="更新投资组合")
     @PatchMapping(value = "/stocks/{id}")
     @ResponseStatus(HttpStatus.CREATED)

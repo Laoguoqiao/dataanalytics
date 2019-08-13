@@ -1,5 +1,6 @@
 package com.team11.dataanalytics.controller;
 
+import com.team11.dataanalytics.annotation.SystemLog;
 import com.team11.dataanalytics.domain.Stock;
 import com.team11.dataanalytics.domain.User;
 import com.team11.dataanalytics.service.StockService;
@@ -25,6 +26,7 @@ public class StockController {
         return stockService.getStockList();
     }
 
+    @SystemLog("添加股票")
     @ApiOperation(value="添加股票", notes="添加股票")
     @PostMapping(value = "/stocks")
     @ResponseStatus(HttpStatus.CREATED)
@@ -40,6 +42,7 @@ public class StockController {
         return stockService.getStock(id);
     }
 
+    @SystemLog("删除股票")
     @ApiOperation(value="删除股票", notes="根据id删除股票")
     @DeleteMapping(value = "/stocks/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -48,6 +51,7 @@ public class StockController {
         stockService.deleteStock(id);
     }
 
+    @SystemLog("更新股票")
     @ApiOperation(value="更新股票", notes="更新股票")
     @PatchMapping(value = "/stocks/{id}")
     @ResponseStatus(HttpStatus.CREATED)

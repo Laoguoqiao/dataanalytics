@@ -1,5 +1,6 @@
 package com.team11.dataanalytics.utils;
 
+import com.team11.dataanalytics.domain.MinuteData;
 import com.team11.dataanalytics.domain.TestData;
 import org.junit.Test;
 
@@ -11,7 +12,7 @@ public class GetDataUtilTest {
 
     @Test
     public void getDataWith1Min() {
-        ArrayList<TestData> data = GetDataUtil.getDataWith1Min("target/classes/ProcessedData/a/1.csv");
+        ArrayList<MinuteData> data = GetDataUtil.getDataWith1Min("target/classes/ProcessedData/a/1.csv");
         System.out.println(data.toString());
     }
 

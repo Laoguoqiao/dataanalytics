@@ -19,6 +19,7 @@ public class TestDataController {
     @ResponseStatus(HttpStatus.OK)
     public Object getDataWith1Min(@PathVariable("symbol") String symbol) throws NotFoundException
     {
+        System.out.println("开始分时");
         return GetDataUtil.getDataWith1Min(symbol);
     }
 
@@ -36,6 +37,14 @@ public class TestDataController {
     public Object getDataWith5Min(@PathVariable("symbol") String symbol) throws NotFoundException
     {
         return GetDataUtil.getDataWith5Min(symbol);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/data/1day/{symbol}", method = RequestMethod.GET)
+    public Object getDataWith1Day(@PathVariable("symbol") String symbol) throws NotFoundException
+    {
+        System.out.println("开始读取1Day");
+        return GetDataUtil.getDataWith1Day(symbol);
     }
 
     @CrossOrigin
