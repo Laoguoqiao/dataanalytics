@@ -28,7 +28,22 @@
     <link rel="stylesheet" type="text/css" href="../static/build/css/custom.min.css"
           th:href="@{/build/css/custom.min.css}"/>
     <script type="text/javascript" th:src="@{/js/echarts.min.js}"></script>
+
 </head>
+
+<style type="text/css">
+    body{margin: 0;padding: 0;}
+    .Content{
+        position: relative;
+        width: 934px;height:500px;
+    }
+    .Kline-div{
+        position: absolute;width: 100%;
+        bottom: 0;top: 0;
+    }
+    .Kline-div .m-line{height: 50%;width: 100%;margin-bottom: 1%;}
+    .Kline-div .K-line{height: 49%;width: 100%;}
+</style>
 
 <body class="nav-md">
 <div class="container body">
@@ -168,6 +183,10 @@
                       <button class="btn btn-default" type="button">Go!</button>
                     </span>
                         </div>
+                        <div class="col-4">
+                            <label>By Date:</label>
+                            <input type="text" name="daterange" class="form-control" value="1/01/2018 - 01/15/2018">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -175,7 +194,7 @@
             <div class="clearfix"></div>
 
             <div class="row">
-                <div class="col-md-8 col-sm-8 col-xs-12" style="width: 975px;height:442.8px;">
+                <div class="col-md-8 col-sm-8 col-xs-12" style="width: 975px;height:800px;">
                     <div class="x_panel">
                         <div class="x_title">
                             <h2>Bar Graph</h2>
@@ -198,9 +217,16 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <div id="echart1" style="width: 934px;height:350px;"></div>
+                            <div id="mainb" class="Content">
+                                <div id="Kline-div" class="Kline-div">
+                                    <div id="m-line" class="m-line"></div>
+                                    <div id="k-content" class="K-line"></div>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
+
                 </div>
             </div>
         </div>
@@ -209,252 +235,326 @@
 </div>
 
 <!--script-->
-
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/echarts.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/tmpData.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/k-line.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/moment.js"></script>
+<script src="js/daterangepicker.js"></script>
 <script type="text/javascript">
-    var upColor = '#00da3c';
-    var downColor = '#ec0000';
-    function splitData(rawData){
-        var categoryData = [];
-        var values = [];
-        var volumes = [];
-        for(var i=0; i < rawData.length; i++){
-            categoryData.push(rawData[i].splice(0, 1)[0]);
-            values.push(rawData[i]);
-            volumes.push([i, rawData[i][4], rawData[i][0] > rawData[i][1] ? 1: -1]);
-        }
-        return{
-            categoryData: categoryData,
-            values: values,
-            volumes: volumes
-        };
-    }
-    // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById("echart1"));
+    var mChart = echarts.init(document.getElementById('m-line'));
+    mChart.setOption(initMOption(mdata,'us'));
+    var kChart= echarts.init(document.getElementById('k-content'));
+    //kChart.setOption(initKOption(kdata));
+    var a="a";
+    var test;
+    var tr="";
+    $(function() {
+        var myajax=$.ajax({
+            type: "GET",
+            url: "http://127.0.0.1:8081/api/data/data/1day/"+a,
+            data: "",
+            dataType: '',
+            contentType: "application/json; charset=utf-8",
+            async : false,
+            success: function (msg) {
+                test = msg;
+                //alert(test);
 
-    $.get('data.json').done(function(rawdata){
-        var data = splitData(rawdata);
-        myChart.setOption(option = {
-            backgroundColor: '#fff',
-            animation: false,
-            legend: {
-                bottom: 10,
-                left: 'center',
-                data: ['Dow-Jones index', 'MA5', 'MA10', 'MA20', 'MA30']
+                var arr = new Array(msg.length); //表格有10行
+                for(var i = 0;i < arr.length; i++){
+                    arr[i] = new Array(10); //每行有10列
+                }
+
+                $.each(test, function (index, item) {
+
+                    tr += [item.date , item.open ,item.close,item.low , item.high ,item.volume , 0 ,0 , 0 ,0]+',';
+                    arr[index][0]=item.date;arr[index][1]=item.open;arr[index][2]=item.close;
+                    arr[index][3]=item.low;arr[index][4]=item.high;arr[index][5]=item.volume;
+                    arr[index][6]=0;arr[index][7]=0;arr[index][8]=0;
+                    arr[index][9]=0;
+                    //tr=item.date;
+                    //alert(tr);
+                });
+                var tb =[tr];
+                //alert(kdata);
+                //alert(tr);
+                test=kdata;
+                console.log(arr);
+                 // var kChart = echarts.init(document.getElementById('k-content'));
+                kChart.setOption(initKOption(arr));
+                //kChart= echarts.init(document.getElementById('k-content'));
+                alert("213");
+                //kChart.setOption(initKOption(kdata));
             },
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {
-                    type: 'cross'
-                },
-                backgroundColor: 'rgba(245, 245, 245, 0.8)',
-                borderWidth: 1,
-                borderColor: '#ccc',
-                padding: 10,
-                textStyle: {
-                    color: '#000'
-                },
-                position: function (pos, params, el, elRect, size) {
-                    var obj = {top: 10};
-                    obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
-                    return obj;
-                }
-                // extraCssText: 'width: 170px'
-            },
-            axisPointer: {
-                link: {xAxisIndex: 'all'},
-                label: {
-                    backgroundColor: '#777'
-                }
-            },
-            toolbox: {
-                feature: {
-                    dataZoom: {
-                        yAxisIndex: false
-                    },
-                    brush: {
-                        type: ['lineX', 'clear']
-                    }
-                }
-            },
-            brush: {
-                xAxisIndex: 'all',
-                brushLink: 'all',
-                outOfBrush: {
-                    colorAlpha: 0.1
-                }
-            },
-            visualMap: {
-                show: false,
-                seriesIndex: 5,
-                dimension: 2,
-                pieces: [{
-                    value: 1,
-                    color: downColor
-                }, {
-                    value: -1,
-                    color: upColor
-                }]
-            },
-            grid: [
-                {
-                    left: '10%',
-                    right: '8%',
-                    height: '50%'
-                },
-                {
-                    left: '10%',
-                    right: '8%',
-                    top: '63%',
-                    height: '16%'
-                }
-            ],
-            xAxis: [
-                {
-                    type: 'category',
-                    data: data.categoryData,
-                    scale: true,
-                    boundaryGap : false,
-                    axisLine: {onZero: false},
-                    splitLine: {show: false},
-                    splitNumber: 20,
-                    min: 'dataMin',
-                    max: 'dataMax',
-                    axisPointer: {
-                        z: 100
-                    }
-                },
-                {
-                    type: 'category',
-                    gridIndex: 1,
-                    data: data.categoryData,
-                    scale: true,
-                    boundaryGap : false,
-                    axisLine: {onZero: false},
-                    axisTick: {show: false},
-                    splitLine: {show: false},
-                    axisLabel: {show: false},
-                    splitNumber: 20,
-                    min: 'dataMin',
-                    max: 'dataMax'
-                }
-            ],
-            yAxis: [
-                {
-                    scale: true,
-                    splitArea: {
-                        show: true
-                    }
-                },
-                {
-                    scale: true,
-                    gridIndex: 1,
-                    splitNumber: 2,
-                    axisLabel: {show: false},
-                    axisLine: {show: false},
-                    axisTick: {show: false},
-                    splitLine: {show: false}
-                }
-            ],
-            dataZoom: [
-                {
-                    type: 'inside',
-                    xAxisIndex: [0, 1],
-                    start: 98,
-                    end: 100
-                },
-                {
-                    show: true,
-                    xAxisIndex: [0, 1],
-                    type: 'slider',
-                    top: '85%',
-                    start: 98,
-                    end: 100
-                }
-            ],
-            series: [
-                {
-                    name: 'Dow-Jones index',
-                    type: 'candlestick',
-                    data: data.values,
-                    itemStyle: {
-                        normal: {
-                            color: upColor,
-                            color0: downColor,
-                            borderColor: null,
-                            borderColor0: null
-                        }
-                    },
-                    tooltip: {
-                        formatter: function (param) {
-                            param = param[0];
-                            return [
-                                'Date: ' + param.name + '<hr size=1 style="margin: 3px 0">',
-                                'Open: ' + param.data[0] + '<br/>',
-                                'Close: ' + param.data[1] + '<br/>',
-                                'Lowest: ' + param.data[2] + '<br/>',
-                                'Highest: ' + param.data[3] + '<br/>'
-                            ].join('');
-                        }
-                    }
-                },
-                {
-                    name: 'MA5',
-                    type: 'line',
-                    data: calculateMA(5, data),
-                    smooth: true,
-                    lineStyle: {
-                        normal: {opacity: 0.5}
-                    }
-                },
-                {
-                    name: 'MA10',
-                    type: 'line',
-                    data: calculateMA(10, data),
-                    smooth: true,
-                    lineStyle: {
-                        normal: {opacity: 0.5}
-                    }
-                },
-                {
-                    name: 'MA20',
-                    type: 'line',
-                    data: calculateMA(20, data),
-                    smooth: true,
-                    lineStyle: {
-                        normal: {opacity: 0.5}
-                    }
-                },
-                {
-                    name: 'MA30',
-                    type: 'line',
-                    data: calculateMA(30, data),
-                    smooth: true,
-                    lineStyle: {
-                        normal: {opacity: 0.5}
-                    }
-                },
-                {
-                    name: 'Volume',
-                    type: 'bar',
-                    xAxisIndex: 1,
-                    yAxisIndex: 1,
-                    data: data.volumes
-                }
-            ]
-        }, true);
-        myChart.dispatchAction({
-            type: 'brush',
-            areas: [
-                {
-                    brushType: 'lineX',
-                    coordRange: ['2016-06-02', '2016-06-20'],
-                    xAxisIndex: 0
-                }
-            ]
+            error:function(e){
+                //alert("error");
+                 console.log(e);
+             }
+        });
+        $.when(myajax).done(function () {
+            //要执行的操作
+            console.log(kdata);
+            //var kChart= echarts.init(document.getElementById('k-content'));
+            //kChart.setOption(initKOption(kdata));
         });
 
-    })
+        $('input[name="daterange"]').daterangepicker({
+            opens: 'left'
+        }, function(start, end, label) {
+            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+        });
+
+    });
+    //kChart.setOption(initKOption(tr));
+
 </script>
+
+<!--<script type="text/javascript">-->
+<!--    var upColor = '#00da3c';-->
+<!--    var downColor = '#ec0000';-->
+<!--    function splitData(rawData){-->
+<!--        var categoryData = [];-->
+<!--        var values = [];-->
+<!--        var volumes = [];-->
+<!--        for(var i=0; i < rawData.length; i++){-->
+<!--            categoryData.push(rawData[i].splice(0, 1)[0]);-->
+<!--            values.push(rawData[i]);-->
+<!--            volumes.push([i, rawData[i][4], rawData[i][0] > rawData[i][1] ? 1: -1]);-->
+<!--        }-->
+<!--        return{-->
+<!--            categoryData: categoryData,-->
+<!--            values: values,-->
+<!--            volumes: volumes-->
+<!--        };-->
+<!--    }-->
+<!--    // 基于准备好的dom，初始化echarts实例-->
+<!--    var myChart = echarts.init(document.getElementById("echart1"));-->
+
+<!--    $.get('data.json').done(function(rawdata){-->
+<!--        var data = splitData(rawdata);-->
+<!--        myChart.setOption(option = {-->
+<!--            backgroundColor: '#fff',-->
+<!--            animation: false,-->
+<!--            legend: {-->
+<!--                bottom: 10,-->
+<!--                left: 'center',-->
+<!--                data: ['Dow-Jones index', 'MA5', 'MA10', 'MA20', 'MA30']-->
+<!--            },-->
+<!--            tooltip: {-->
+<!--                trigger: 'axis',-->
+<!--                axisPointer: {-->
+<!--                    type: 'cross'-->
+<!--                },-->
+<!--                backgroundColor: 'rgba(245, 245, 245, 0.8)',-->
+<!--                borderWidth: 1,-->
+<!--                borderColor: '#ccc',-->
+<!--                padding: 10,-->
+<!--                textStyle: {-->
+<!--                    color: '#000'-->
+<!--                },-->
+<!--                position: function (pos, params, el, elRect, size) {-->
+<!--                    var obj = {top: 10};-->
+<!--                    obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;-->
+<!--                    return obj;-->
+<!--                }-->
+<!--                // extraCssText: 'width: 170px'-->
+<!--            },-->
+<!--            axisPointer: {-->
+<!--                link: {xAxisIndex: 'all'},-->
+<!--                label: {-->
+<!--                    backgroundColor: '#777'-->
+<!--                }-->
+<!--            },-->
+<!--            toolbox: {-->
+<!--                feature: {-->
+<!--                    dataZoom: {-->
+<!--                        yAxisIndex: false-->
+<!--                    },-->
+<!--                    brush: {-->
+<!--                        type: ['lineX', 'clear']-->
+<!--                    }-->
+<!--                }-->
+<!--            },-->
+<!--            brush: {-->
+<!--                xAxisIndex: 'all',-->
+<!--                brushLink: 'all',-->
+<!--                outOfBrush: {-->
+<!--                    colorAlpha: 0.1-->
+<!--                }-->
+<!--            },-->
+<!--            visualMap: {-->
+<!--                show: false,-->
+<!--                seriesIndex: 5,-->
+<!--                dimension: 2,-->
+<!--                pieces: [{-->
+<!--                    value: 1,-->
+<!--                    color: downColor-->
+<!--                }, {-->
+<!--                    value: -1,-->
+<!--                    color: upColor-->
+<!--                }]-->
+<!--            },-->
+<!--            grid: [-->
+<!--                {-->
+<!--                    left: '10%',-->
+<!--                    right: '8%',-->
+<!--                    height: '50%'-->
+<!--                },-->
+<!--                {-->
+<!--                    left: '10%',-->
+<!--                    right: '8%',-->
+<!--                    top: '63%',-->
+<!--                    height: '16%'-->
+<!--                }-->
+<!--            ],-->
+<!--            xAxis: [-->
+<!--                {-->
+<!--                    type: 'category',-->
+<!--                    data: data.categoryData,-->
+<!--                    scale: true,-->
+<!--                    boundaryGap : false,-->
+<!--                    axisLine: {onZero: false},-->
+<!--                    splitLine: {show: false},-->
+<!--                    splitNumber: 20,-->
+<!--                    min: 'dataMin',-->
+<!--                    max: 'dataMax',-->
+<!--                    axisPointer: {-->
+<!--                        z: 100-->
+<!--                    }-->
+<!--                },-->
+<!--                {-->
+<!--                    type: 'category',-->
+<!--                    gridIndex: 1,-->
+<!--                    data: data.categoryData,-->
+<!--                    scale: true,-->
+<!--                    boundaryGap : false,-->
+<!--                    axisLine: {onZero: false},-->
+<!--                    axisTick: {show: false},-->
+<!--                    splitLine: {show: false},-->
+<!--                    axisLabel: {show: false},-->
+<!--                    splitNumber: 20,-->
+<!--                    min: 'dataMin',-->
+<!--                    max: 'dataMax'-->
+<!--                }-->
+<!--            ],-->
+<!--            yAxis: [-->
+<!--                {-->
+<!--                    scale: true,-->
+<!--                    splitArea: {-->
+<!--                        show: true-->
+<!--                    }-->
+<!--                },-->
+<!--                {-->
+<!--                    scale: true,-->
+<!--                    gridIndex: 1,-->
+<!--                    splitNumber: 2,-->
+<!--                    axisLabel: {show: false},-->
+<!--                    axisLine: {show: false},-->
+<!--                    axisTick: {show: false},-->
+<!--                    splitLine: {show: false}-->
+<!--                }-->
+<!--            ],-->
+<!--            dataZoom: [-->
+<!--                {-->
+<!--                    type: 'inside',-->
+<!--                    xAxisIndex: [0, 1],-->
+<!--                    start: 98,-->
+<!--                    end: 100-->
+<!--                },-->
+<!--                {-->
+<!--                    show: true,-->
+<!--                    xAxisIndex: [0, 1],-->
+<!--                    type: 'slider',-->
+<!--                    top: '85%',-->
+<!--                    start: 98,-->
+<!--                    end: 100-->
+<!--                }-->
+<!--            ],-->
+<!--            series: [-->
+<!--                {-->
+<!--                    name: 'Dow-Jones index',-->
+<!--                    type: 'candlestick',-->
+<!--                    data: data.values,-->
+<!--                    itemStyle: {-->
+<!--                        normal: {-->
+<!--                            color: upColor,-->
+<!--                            color0: downColor,-->
+<!--                            borderColor: null,-->
+<!--                            borderColor0: null-->
+<!--                        }-->
+<!--                    },-->
+<!--                    tooltip: {-->
+<!--                        formatter: function (param) {-->
+<!--                            param = param[0];-->
+<!--                            return [-->
+<!--                                'Date: ' + param.name + '<hr size=1 style="margin: 3px 0">',-->
+<!--                                'Open: ' + param.data[0] + '<br/>',-->
+<!--                                'Close: ' + param.data[1] + '<br/>',-->
+<!--                                'Lowest: ' + param.data[2] + '<br/>',-->
+<!--                                'Highest: ' + param.data[3] + '<br/>'-->
+<!--                            ].join('');-->
+<!--                        }-->
+<!--                    }-->
+<!--                },-->
+<!--                {-->
+<!--                    name: 'MA5',-->
+<!--                    type: 'line',-->
+<!--                    data: calculateMA(5, data),-->
+<!--                    smooth: true,-->
+<!--                    lineStyle: {-->
+<!--                        normal: {opacity: 0.5}-->
+<!--                    }-->
+<!--                },-->
+<!--                {-->
+<!--                    name: 'MA10',-->
+<!--                    type: 'line',-->
+<!--                    data: calculateMA(10, data),-->
+<!--                    smooth: true,-->
+<!--                    lineStyle: {-->
+<!--                        normal: {opacity: 0.5}-->
+<!--                    }-->
+<!--                },-->
+<!--                {-->
+<!--                    name: 'MA20',-->
+<!--                    type: 'line',-->
+<!--                    data: calculateMA(20, data),-->
+<!--                    smooth: true,-->
+<!--                    lineStyle: {-->
+<!--                        normal: {opacity: 0.5}-->
+<!--                    }-->
+<!--                },-->
+<!--                {-->
+<!--                    name: 'MA30',-->
+<!--                    type: 'line',-->
+<!--                    data: calculateMA(30, data),-->
+<!--                    smooth: true,-->
+<!--                    lineStyle: {-->
+<!--                        normal: {opacity: 0.5}-->
+<!--                    }-->
+<!--                },-->
+<!--                {-->
+<!--                    name: 'Volume',-->
+<!--                    type: 'bar',-->
+<!--                    xAxisIndex: 1,-->
+<!--                    yAxisIndex: 1,-->
+<!--                    data: data.volumes-->
+<!--                }-->
+<!--            ]-->
+<!--        }, true);-->
+<!--        myChart.dispatchAction({-->
+<!--            type: 'brush',-->
+<!--            areas: [-->
+<!--                {-->
+<!--                    brushType: 'lineX',-->
+<!--                    coordRange: ['2016-06-02', '2016-06-20'],-->
+<!--                    xAxisIndex: 0-->
+<!--                }-->
+<!--            ]-->
+<!--        });-->
+
+<!--    })-->
+<!--</script>-->
 <!--script-->
 <!-- jQuery -->
 <script type="text/javascript" th:src="@{/vendors/jquery/dist/jquery.min.js}"></script>
@@ -466,6 +566,9 @@
 
 <!-- Custom Theme Scripts -->
 <script type="text/javascript" th:src="@{/build/js/custom.min.js}"></script>
+<script type="text/javascript">
 
+
+</script>
 </body>
 </html>
