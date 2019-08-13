@@ -1,6 +1,7 @@
 package com.team11.dataanalytics.data;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.team11.dataanalytics.DataAnalyticsApplication;
 import com.team11.dataanalytics.openfeign.client.PythonClient;
@@ -15,13 +16,13 @@ import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DataAnalyticsApplication.class)
 public class DataReaderTest {
-    private String root = "ProcessedData/";
     private DataReader dataReader;
 
     @Autowired
@@ -29,14 +30,23 @@ public class DataReaderTest {
 
     @Before
     public void setUp(){
-        this.dataReader = new DataReader(this.root);
+        String root = "ProcessedData/";
+        this.dataReader = new DataReader(root);
     }
 
     @Test
     public void pythonclient(){
-        String result = pythonClient.pythonGetDataBySymbolSlice("a","d");
-        Map data = (Map) JSONObject.parse(result);
-        System.out.println(data.get("Open"));
+        String result = pythonClient.pythonGetDataBySymbolSlice("a","day","1");
+        JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
+        System.out.println(jsonObject.keySet().toString());
+        for (String key : jsonObject.keySet()) {
+            JSONObject subObject = jsonObject.getJSONObject(key);
+            for (String key2 : subObject.keySet()) {
+                Float value = subObject.getFloat(key2);
+                System.out.println(key + "\n\r" + key2 + "\n\r" + value);
+            }
+        }
+
     }
 
     @Test
