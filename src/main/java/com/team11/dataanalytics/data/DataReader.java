@@ -1,5 +1,7 @@
 package com.team11.dataanalytics.data;
 
+import org.springframework.util.ResourceUtils;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class DataReader {
-    private String root;
+    public String root="";
     private String symbol;
 
     public String[] getSymbols() {
@@ -19,12 +21,13 @@ public class DataReader {
     private Map<String, List<Data>> all_datas = new HashMap<String, List<Data>>();
 
     public DataReader(String root) {
-        this.root = root;
-        this.symbols = new File(root).list();
+        this.root = "target/classes/";
+
+        this.symbols = new File(this.root).list();
     }
 
     public List<Data> read_other(String other){
-        String filepath = this.root + "OtherData\\" ;
+        String filepath = this.root + "OtherData/" ;
         if(this.read_csv(filepath+other+".csv", true))
             return this.datas;
         else
@@ -74,7 +77,7 @@ public class DataReader {
             csvReader.close();
             return true;
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println(filepath+" File not found!");
             return false;
         } catch (IOException e) {
             e.printStackTrace();
@@ -84,9 +87,11 @@ public class DataReader {
 
     public List<Data> read(String symbol){
         this.symbol = symbol;
-        String filepath = this.root + "ProcessData\\" + symbol + '\\';
-        String[] filenames = new File(filepath).list();
-        for(String filename : filenames){
+        String filepath = this.root + "ProcessedData/" + symbol + '/';
+        System.out.println(filepath);
+        File[] filenames = new File(filepath).listFiles();
+        for(File file : filenames){
+            String filename = file.toString();
             if(this.read_csv(filepath+filename)) {
             }
             else{
