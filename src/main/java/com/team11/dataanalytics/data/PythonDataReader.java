@@ -100,6 +100,11 @@ public class PythonDataReader {
                     each = new DailyData(symbol, date, open, high, low, close,
                             volume, split, earnings, dividends);
                     break;
+                case "yahoo":
+                    date = key;
+                    each = new DailyData(symbol, date, open, high, low, close,
+                            volume, "0", "0", "0");
+                    break;
                 default:
                     return new ArrayList<>();
 
@@ -158,6 +163,15 @@ public class PythonDataReader {
         Map<String, String> map = new HashMap<>();
         map.put("flag", flag);
         String result = this.pythonClient.pythonGetOtherData(map);
-        return this.ParseData(result,flag);
+        return this.ParseOtherData(result,flag);
+    }
+
+    public List<Data> GetYahooData(String symbol, String start, String end) {
+        Map<String, String> map = new HashMap<>();
+        map.put("symbol", symbol);
+        map.put("start", start);
+        map.put("end", end);
+        String result = this.pythonClient.pythonGetYahooData(map);
+        return this.ParseData(result, symbol, "yahoo");
     }
 }

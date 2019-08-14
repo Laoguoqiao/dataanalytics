@@ -54,7 +54,6 @@ public class DataReaderTest {
                 System.out.println(key + "\n\r" + key2 + "\n\r" + value);
             }
         }
-
     }
 
     @Test

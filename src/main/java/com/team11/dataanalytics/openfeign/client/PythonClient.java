@@ -22,4 +22,7 @@ public interface PythonClient {
 
     @RequestMapping(value = "/getOtherData", method = RequestMethod.POST, consumes="application/json")
     String pythonGetOtherData(Map map);
+
+    @RequestMapping(value = "/getYahooData", method = RequestMethod.POST, consumes="application/json")
+    String pythonGetYahooData(Map map);
 }
