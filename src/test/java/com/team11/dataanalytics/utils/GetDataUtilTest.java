@@ -25,4 +25,40 @@ public class GetDataUtilTest {
     public void readStockData() {
         GetDataUtil.readStockData("target/classes/ProcessedData/lastday.csv");
     }
+
+    @Test
+    public void testGetDataWith1Min() {
+    }
+
+    @Test
+    public void getDataWith3Min() {
+    }
+
+    @Test
+    public void getDataWith5Min() {
+    }
+
+    @Test
+    public void getDataWith1Day() {
+    }
+
+    @Test
+    public void getStockData() {
+    }
+
+    @Test
+    public void testRead() {
+    }
+
+    @Test
+    public void readMinuteData() {
+    }
+
+    @Test
+    public void readWithoutTime() {
+    }
+
+    @Test
+    public void testReadStockData() {
+    }
 }

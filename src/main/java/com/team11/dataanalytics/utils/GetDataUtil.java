@@ -7,16 +7,12 @@ import com.team11.dataanalytics.data.MinutesData;
 import com.team11.dataanalytics.data.PythonDataReader;
 import com.team11.dataanalytics.domain.MinuteData;
 import com.team11.dataanalytics.domain.StockData;
-import com.team11.dataanalytics.domain.TestData;
-import com.team11.dataanalytics.openfeign.client.PythonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Component
 public class GetDataUtil {
@@ -88,6 +84,7 @@ public class GetDataUtil {
                         String.valueOf(minutesData.getVolume()));
                 data.add(minuteData);
             }
+
         }
         return data;
     }
