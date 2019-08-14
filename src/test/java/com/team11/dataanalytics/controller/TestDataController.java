@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = DataAnalyticsApplication.class)
-public class TestDataControllerTest {
+public class TestDataController {
 
     @Autowired
     private WebApplicationContext webApplicationContext;

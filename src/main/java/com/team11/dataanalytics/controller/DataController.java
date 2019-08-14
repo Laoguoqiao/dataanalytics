@@ -14,7 +14,7 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/data")
-public class TestDataController {
+public class DataController {
 
     @Autowired
     private  GetDataUtil getDataUtil;
@@ -62,7 +62,7 @@ public class TestDataController {
     public Object getStocksData() throws NotFoundException
     {
         System.out.println("LASTDAY");
-        return GetDataUtil.getStockData();
+        return getDataUtil.getLastDay();
     }
 
     @ApiOperation(value="测试")
