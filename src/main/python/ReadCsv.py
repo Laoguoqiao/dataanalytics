@@ -83,7 +83,8 @@ class ReadCsv :
 
         if flag == 'min':
             df = pd.read_csv(filename)
-            df = df[(df['Date'] >= start) & (df['Date'] <= end)]
+            df = df[(df['Date'] >= datetime.strptime(start, "%Y-%m-%d").strftime("%Y-%m-%d") )&
+                    (df['Date'] <= datetime.strptime(end, "%Y-%m-%d").strftime("%Y-%m-%d"))]
             df['Time'] = df['Time'].apply(str).str.replace(':', '')
             df = ReIndex(df)
         else:

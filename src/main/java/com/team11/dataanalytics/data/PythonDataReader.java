@@ -159,4 +159,13 @@ public class PythonDataReader {
         String result = this.pythonClient.pythonGetOtherData(map);
         return this.ParseData(result,flag);
     }
+
+    public List<Data> GetYahooData(String symbol, String start, String end) {
+        Map<String, String> map = new HashMap<>();
+        map.put("symbol", symbol);
+        map.put("start", start);
+        map.put("end", end);
+        String result = this.pythonClient.pythonGetYahooData(map);
+        return this.ParseData(result, symbol);
+    }
 }

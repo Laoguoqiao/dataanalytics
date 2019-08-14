@@ -20,6 +20,12 @@ public class PythonDataReaderTest {
         for(Data data :this.pythonDataReader.GetDataBySymbol("a")){
             System.out.println(data.toString());
         }
+    }
 
+    @Test
+    public void getYahooData(){
+        for(Data data :this.pythonDataReader.GetYahooData("a","2016-01-04","2016-01-05")){
+            System.out.println(data.toString());
+        }
     }
 }
