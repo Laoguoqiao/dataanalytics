@@ -45,15 +45,13 @@ public class GetDataUtil {
 
     public ArrayList<DailyData> getDataWith1Day(String symbol) {
         ArrayList<DailyData> data = new ArrayList<>();
-        data = readWithoutTime(symbol);
+        data = readDailyData(symbol,null);
         return data;
     }
 
-    public static ArrayList<StockData> getStockData() {
-        ArrayList<StockData> data = new ArrayList<>();
-
-        String filepath = "target/classes/ProcessedData/lastday.csv";
-        data = GetDataUtil.readStockData(filepath);
+    public  ArrayList<DailyData> getLastDay() {
+        ArrayList<DailyData> data = new ArrayList<>();
+        data = readDailyData(null,"lastday");
         return data;
 
     }
@@ -90,10 +88,16 @@ public class GetDataUtil {
     }
 
 
-    public ArrayList<DailyData> readWithoutTime(String symbol) {
+    public ArrayList<DailyData> readDailyData(String symbol,String flag) {
 
         ArrayList<DailyData> data = new ArrayList<>();
-        List<Data> originDatas = pythonDataReader.GetDataBySymbol(symbol);
+        List<Data> originDatas = new ArrayList<>();
+        if(flag==null) {
+           originDatas= pythonDataReader.GetDataBySymbol(symbol);
+        }else {
+            originDatas=pythonDataReader.GetOtherData(flag);
+        }
+
 
         for (Data originData : originDatas) {
             DailyData dailyData = (DailyData) originData;
@@ -102,35 +106,35 @@ public class GetDataUtil {
         return data;
     }
 
-    public static ArrayList<StockData> readStockData(String filePath) {
-        ArrayList<StockData> data = new ArrayList<>();
-        System.out.println("start reading");
-        try {
-            // 创建CSV读对象
-            CsvReader csvReader = new CsvReader(filePath);
-
-            // 读表头
-            csvReader.readHeaders();
-            while (csvReader.readRecord()) {
-                // 读一整行
-                //System.out.println(csvReader.getRawRecord());
-                StockData stockData = new StockData(csvReader.get("Symbol"),
-                        csvReader.get("Date"),
-                        csvReader.get("Open"),
-                        csvReader.get("High"),
-                        csvReader.get("Low"),
-                        csvReader.get("Close"),
-                        csvReader.get("Volume"),
-                        csvReader.get("Split Factor"),
-                        csvReader.get("Earnings"),
-                        csvReader.get("Dividends"));
-                data.add(stockData);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return data;
-    }
+//    public static ArrayList<StockData> readStockData(String filePath) {
+//        ArrayList<StockData> data = new ArrayList<>();
+//        System.out.println("start reading");
+//        try {
+//            // 创建CSV读对象
+//            CsvReader csvReader = new CsvReader(filePath);
+//
+//            // 读表头
+//            csvReader.readHeaders();
+//            while (csvReader.readRecord()) {
+//                // 读一整行
+//                //System.out.println(csvReader.getRawRecord());
+//                StockData stockData = new StockData(csvReader.get("Symbol"),
+//                        csvReader.get("Date"),
+//                        csvReader.get("Open"),
+//                        csvReader.get("High"),
+//                        csvReader.get("Low"),
+//                        csvReader.get("Close"),
+//                        csvReader.get("Volume"),
+//                        csvReader.get("Split Factor"),
+//                        csvReader.get("Earnings"),
+//                        csvReader.get("Dividends"));
+//                data.add(stockData);
+//            }
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return data;
+//    }
 
 }

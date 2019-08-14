@@ -23,7 +23,7 @@ public class GetDataUtilTest {
 
     @Test
     public void readStockData() {
-        GetDataUtil.readStockData("target/classes/ProcessedData/lastday.csv");
+       // GetDataUtil.readStockData("target/classes/ProcessedData/lastday.csv");
     }
 
     @Test
