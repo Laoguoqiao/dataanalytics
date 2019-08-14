@@ -12,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class GetDataUtil {
+
 
 
 
@@ -22,12 +24,12 @@ public class GetDataUtil {
     private PythonClient pythonClient;
 
 
-    public static ArrayList<MinuteData> getDataWith1Min(String symbol)
+    public static ArrayList<MinuteData> getDataWith1Min(String symbol,String date)
     {
         ArrayList<MinuteData> data=new ArrayList<>();
         //读取文件data
         String filepath="target/classes/ProcessedData/"+symbol+"/1.csv";
-        data = GetDataUtil.readMinuteData(filepath);
+        data = GetDataUtil.readMinuteData(filepath,date);
 
         return  data;
     }
@@ -103,10 +105,10 @@ public class GetDataUtil {
         return data;
     }
 
-    public static ArrayList<MinuteData> readMinuteData(String filePath){
+    public static ArrayList<MinuteData> readMinuteData(String filePath,String date){
 
         ArrayList<MinuteData> data=new ArrayList<>();
-        System.out.println("start reading");
+        System.out.println("start reading"+filePath+"|"+date);
         try {
             // 创建CSV读对象
             CsvReader csvReader = new CsvReader(filePath);
@@ -116,13 +118,18 @@ public class GetDataUtil {
             while (csvReader.readRecord()){
                 // 读一整行
                 //System.out.println(csvReader.getRawRecord());
-                MinuteData minuteData = new MinuteData(csvReader.get("Date"),
-                        csvReader.get("Time"),
-                        csvReader.get("Close"),
-                        String.valueOf((Float.valueOf(csvReader.get("High"))+
-                        Float.valueOf(csvReader.get("Low")))/2),
-                        csvReader.get("Volume"));
-                data.add(minuteData);
+
+                System.out.println(csvReader.get("Date").replace('/','-').replace("-0","-")+"|"+date);
+                if(csvReader.get("Date").replace('/','-').replace("-0","-").equals(date)) {
+                    System.out.println(csvReader.get("Date")+date);
+                    MinuteData minuteData = new MinuteData(csvReader.get("Date"),
+                            csvReader.get("Time"),
+                            csvReader.get("Close"),
+                            String.valueOf((Float.valueOf(csvReader.get("High")) +
+                                    Float.valueOf(csvReader.get("Low"))) / 2),
+                            csvReader.get("Volume"));
+                    data.add(minuteData);
+                }
             }
 
         } catch (IOException e) {
