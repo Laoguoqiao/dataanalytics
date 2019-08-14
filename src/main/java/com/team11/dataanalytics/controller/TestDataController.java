@@ -30,25 +30,26 @@ public class TestDataController {
 
 
     @ApiOperation(value="获取股票分钟数据", notes="根据symbol获取股票分钟数据")
-    @GetMapping(value = "/data/3/{symbol}")
+    @GetMapping(value = "/data/3/{symbol}/{date}")
     @ResponseStatus(HttpStatus.OK)
-    public Object getDataWith3Min(@PathVariable("symbol") String symbol) throws NotFoundException
+    public Object getDataWith3Min(@PathVariable("symbol") String symbol,@PathVariable("date")String date) throws NotFoundException
     {
-        return GetDataUtil.getDataWith3Min(symbol);
+        return getDataUtil.getDataWith3Min(symbol,date);
     }
 
 
     @ApiOperation(value="获取股票5分钟数据", notes="根据symbol获取股票5分钟数据")
-    @GetMapping(value = "/data/5/{symbol}")
+    @GetMapping(value = "/data/5/{symbol}/{date}")
     @ResponseStatus(HttpStatus.OK)
-    public Object getDataWith5Min(@PathVariable("symbol") String symbol) throws NotFoundException
+    public Object getDataWith5Min(@PathVariable("symbol") String symbol,@PathVariable("date")String date) throws NotFoundException
     {
-        return GetDataUtil.getDataWith5Min(symbol);
+        return getDataUtil.getDataWith5Min(symbol,date);
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/data/1day/{symbol}", method = RequestMethod.GET)
-    public Object getDataWith1Day(@PathVariable("symbol") String symbol) throws NotFoundException
+    @ApiOperation(value = "获取按天的数据")
+    @RequestMapping(value = "/data/1day/{symbol}/{start}-{end}", method = RequestMethod.GET)
+    public Object getDataWith1Day(@PathVariable("symbol") String symbol,@PathVariable("start")String start,@PathVariable("end")String end) throws NotFoundException
     {
         System.out.println("开始读取1Day");
         return GetDataUtil.getDataWith1Day(symbol);

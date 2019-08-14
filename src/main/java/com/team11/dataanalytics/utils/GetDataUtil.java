@@ -33,21 +33,18 @@ public class GetDataUtil {
         return  data;
     }
 
-    public static ArrayList<TestData> getDataWith3Min(String symbol)
+    public  ArrayList<MinuteData> getDataWith3Min(String symbol,String date)
     {
-        ArrayList<TestData> data=new ArrayList<>();
-        data = read3MinData(symbol,);
+        ArrayList<MinuteData> data=new ArrayList<>();
+        data = readMinuteData(symbol,date,date,"min","3");
 
         return  data;
     }
 
-    public static ArrayList<TestData> getDataWith5Min(String symbol)
+    public  ArrayList<MinuteData> getDataWith5Min(String symbol,String date)
     {
-        ArrayList<TestData> data=new ArrayList<>();
-        //读取文件data
-        String filepath="target/classes/ProcessedData/"+symbol+"/5.csv";
-        data = GetDataUtil.read(filepath);
-
+        ArrayList<MinuteData> data=new ArrayList<>();
+        data =  readMinuteData(symbol,date,date,"min","5");;
         return  data;
     }
 
@@ -80,7 +77,7 @@ public class GetDataUtil {
             //远程获取一天分钟时间数据(原始数据）
             originDatas=pythonDataReader.GetOriginData(symbol,start,end);
         }else if(flag!=null&slice!=null){
-            originDatas=pythonDataReader.GetDataBySymbolSlice(symbol,flag,slice);
+            originDatas=pythonDataReader.GetDataBySymbolSlice(symbol, flag, slice, start,end);
         }
            for(Data originData:originDatas){
                 // 读一整行
