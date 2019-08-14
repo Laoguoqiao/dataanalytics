@@ -112,7 +112,7 @@ public class GetDataUtil {
                 // 读一整行
                 //System.out.println(csvReader.getRawRecord());
 
-                System.out.println(csvReader.get("Date").replace('/','-').replace("-0","-")+"|"+date);
+                //System.out.println(csvReader.get("Date").replace('/','-').replace("-0","-")+"|"+date);
                 if(csvReader.get("Date").replace('/','-').replace("-0","-").equals(date)) {
                     System.out.println(csvReader.get("Date")+date);
                     MinuteData minuteData = new MinuteData(csvReader.get("Date"),
