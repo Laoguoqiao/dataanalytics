@@ -61,9 +61,32 @@ public class PythonDataReader {
         return map;
     }
 
-    private List<Data> ParseOtherData(String result, String flag){
-        if(flag.equals("lastday"))
-            return this.ParseData(result, flag);
+    private List<Data> ParseOtherData(String result, String flag) {
+        if (flag.equals("lastday")) {
+            List<Data> data = new ArrayList<Data>();
+            JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
+            Set<String> sortSet = new TreeSet<String>(Comparator.naturalOrder());
+            sortSet.addAll(jsonObject.keySet());
+
+            for (String key : sortSet) {
+                JSONObject subObject = jsonObject.getJSONObject(key);
+                String date = subObject.getString("Date")
+                String open = subObject.getString("Open");
+                String high = subObject.getString("High");
+                String low = subObject.getString("Low");
+                String close = subObject.getString("Close");
+                String volume = subObject.getString("Volume");
+                String split = subObject.getString("Split Factor");
+                String earnings = subObject.getString("Earnings");
+                String dividends = subObject.getString("Dividends");
+
+                Data each = new DailyData(key, date, open, high, low, close,
+                        volume, split, earnings, dividends);
+
+                data.add(each);
+            }
+            return data;
+        }
         return new ArrayList<Data>();
     }
 
@@ -74,7 +97,7 @@ public class PythonDataReader {
         Set<String> sortSet = new TreeSet<String>(Comparator.naturalOrder());
         sortSet.addAll(jsonObject.keySet());
 
-        System.out.println(sortSet.toString());
+        //System.out.println(sortSet.toString());
         for (String key : sortSet) {
             JSONObject subObject = jsonObject.getJSONObject(key);
             String open = subObject.getString("Open");
