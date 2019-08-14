@@ -8,17 +8,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Map;
-
-@FeignClient(url = "http://192.168.43.8:5000", name = "Test")
+// hotpot 192.168.43.8
+// home 192.168.0.102
+@FeignClient(url = "http://192.168.43.8:5000", name = "PythonServer")
 @Component
 public interface PythonClient {
 
-    @RequestMapping(value = "/analysisData", method = RequestMethod.POST, consumes="application/json")
-    String pythonAnalysisData(Data data);
-    @RequestMapping(value = "/getDataBySymbol", method = RequestMethod.POST, consumes="application/json")
-    String pythonGetDataBySymbol(String symbol);
-    @RequestMapping(value = "/getDataBySymbolSlice", method = RequestMethod.POST, consumes="application/json")
-    String pythonGetDataBySymbolSlice(String... symbol);
     @RequestMapping(value = "/getDataByDict", method = RequestMethod.POST, consumes="application/json")
     String pythonGetDataByDict(Map map);
+
+    @RequestMapping(value = "/getOriginData", method = RequestMethod.POST, consumes="application/json")
+    String pythonGetOriginData(Map map);
+
+    @RequestMapping(value = "/getOtherData", method = RequestMethod.POST, consumes="application/json")
+    String pythonGetOtherData(Map map);
+
+    @RequestMapping(value = "/getYahooData", method = RequestMethod.POST, consumes="application/json")
+    String pythonGetYahooData(Map map);
 }

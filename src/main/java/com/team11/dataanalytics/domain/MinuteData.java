@@ -1,6 +1,8 @@
 package com.team11.dataanalytics.domain;
 
-public class MinuteData {
+
+
+public class MinuteData  {
     private String date;
     private String time;
     private String current;

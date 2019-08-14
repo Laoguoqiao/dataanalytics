@@ -13,6 +13,59 @@ import java.util.*;
 public class PythonDataReader {
     @Autowired
     private PythonClient pythonClient;
+    private List<String> parameters = new ArrayList<>();
+
+    public PythonDataReader() {
+        this.parameters.add("symbol");
+        this.parameters.add("flag");
+        this.parameters.add("slices");
+        this.parameters.add("start");
+        this.parameters.add("end");
+        this.parameters.add("MACD");
+        this.parameters.add("RSI");
+        this.parameters.add("KDJ");
+    }
+
+    private Map<String, String> SetParam(String... params){
+        Map<String, String> map = new HashMap<>();
+        int i = 0;
+        for(String param:params){
+            map.put(this.parameters.get(i), param);
+            i ++;
+        }
+        if(i==0){
+            map.put(this.parameters.get(i), "a");
+            i ++;
+        }
+        if(i==1){
+            map.put(this.parameters.get(i), "day");
+            i ++;
+        }
+        if(i==2){
+            map.put(this.parameters.get(i), "1");
+            i ++;
+        }
+        if(i==3){
+            map.put(this.parameters.get(i), "2016-01-04");
+            i ++;
+        }
+        if(i==4){
+            map.put(this.parameters.get(i), "2016-03-24");
+            i ++;
+        }
+        if(i==5){
+            map.put(this.parameters.get(i++), "False");
+            map.put(this.parameters.get(i++), "False");
+            map.put(this.parameters.get(i++), "False");
+        }
+        return map;
+    }
+
+    private List<Data> ParseOtherData(String result, String flag){
+        if(flag == "lastday")
+            return this.ParseData(result, flag);
+        return new ArrayList<Data>();
+    }
 
     private List<Data> ParseData(String result, String symbol, String flag){
         List<Data> data = new ArrayList<Data>();
@@ -47,6 +100,11 @@ public class PythonDataReader {
                     each = new DailyData(symbol, date, open, high, low, close,
                             volume, split, earnings, dividends);
                     break;
+                case "yahoo":
+                    date = key;
+                    each = new DailyData(symbol, date, open, high, low, close,
+                            volume, "0", "0", "0");
+                    break;
                 default:
                     return new ArrayList<>();
 
@@ -58,7 +116,7 @@ public class PythonDataReader {
     }
 
     private List<Data> ParseData(String result, String symbol){
-        return this.ParseData(result, symbol, "min");
+        return this.ParseData(result, symbol, "day");
     }
 
     /*
@@ -71,7 +129,7 @@ public class PythonDataReader {
     public List<Data> GetDataBySymbol(String symbol){
         // Default get all data of 1 minutes
 
-        String result = pythonClient.pythonGetDataBySymbol(symbol);
+        String result = pythonClient.pythonGetDataByDict(this.SetParam(symbol));
 
         return new ArrayList<Data>(this.ParseData(result, symbol));
     }
@@ -86,11 +144,34 @@ public class PythonDataReader {
     * return:
     *       list of Data Object
     * */
-    public List<Data> GetDataBySymbolSlice(String symbol, String flag, String slice){
-        String result = this.pythonClient.pythonGetDataBySymbolSlice(symbol, flag, slice);
+
+    public List<Data> GetDataBySymbolSlice(String symbol, String flag, String slice, String start, String end){
+        String result = this.pythonClient.pythonGetDataByDict(SetParam(symbol, flag, slice, start, end));
         return this.ParseData(result, symbol, flag);
     }
 
+    public List<Data> GetOriginData(String symbol, String start, String end){
+        Map<String, String> map = new HashMap<>();
+        map.put("symbol", symbol);
+        map.put("start", start);
+        map.put("end", end);
+        String result = this.pythonClient.pythonGetOriginData(map);
+        return this.ParseData(result, symbol, "min");
+    }
 
+    public List<Data> GetOtherData(String flag){
+        Map<String, String> map = new HashMap<>();
+        map.put("flag", flag);
+        String result = this.pythonClient.pythonGetOtherData(map);
+        return this.ParseOtherData(result,flag);
+    }
 
+    public List<Data> GetYahooData(String symbol, String start, String end) {
+        Map<String, String> map = new HashMap<>();
+        map.put("symbol", symbol);
+        map.put("start", start);
+        map.put("end", end);
+        String result = this.pythonClient.pythonGetYahooData(map);
+        return this.ParseData(result, symbol, "yahoo");
+    }
 }

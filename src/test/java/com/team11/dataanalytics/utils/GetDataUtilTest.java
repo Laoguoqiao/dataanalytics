@@ -18,7 +18,7 @@ public class GetDataUtilTest {
 
     @Test
     public void read() {
-        GetDataUtil.read("target/classes/ProcessedData/a/1.csv");
+        //GetDataUtil.read("target/classes/ProcessedData/a/1.csv");
     }
 
     @Test
