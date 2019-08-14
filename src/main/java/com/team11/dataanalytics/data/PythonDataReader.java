@@ -126,7 +126,7 @@ public class PythonDataReader {
 
         String result = pythonClient.pythonGetDataByDict(this.SetParam(symbol));
 
-        return new ArrayList<Data>(this.ParseData(result, symbol));
+        return new ArrayList<Data>(this.ParseData(result, symbol,"day"));
     }
 
     /*

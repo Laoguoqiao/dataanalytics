@@ -47,12 +47,12 @@ public class TestDataController {
     }
 
     @CrossOrigin
-    @ApiOperation(value = "获取按天的数据")
-    @RequestMapping(value = "/data/1day/{symbol}/{start}-{end}", method = RequestMethod.GET)
-    public Object getDataWith1Day(@PathVariable("symbol") String symbol,@PathVariable("start")String start,@PathVariable("end")String end) throws NotFoundException
+    @ApiOperation(value = "获取一天的数据")
+    @RequestMapping(value = "/data/1day/{symbol}", method = RequestMethod.GET)
+    public Object getDataWith1Day(@PathVariable("symbol") String symbol) throws NotFoundException
     {
         System.out.println("开始读取1Day");
-        return GetDataUtil.getDataWith1Day(symbol);
+        return getDataUtil.getDataWith1Day(symbol);
     }
 
     @CrossOrigin
