@@ -1,28 +1,34 @@
 package com.team11.dataanalytics.utils;
 
 import com.csvreader.CsvReader;
+import com.team11.dataanalytics.data.Data;
+import com.team11.dataanalytics.data.MinutesData;
+import com.team11.dataanalytics.data.PythonDataReader;
 import com.team11.dataanalytics.domain.MinuteData;
 import com.team11.dataanalytics.domain.StockData;
 import com.team11.dataanalytics.domain.TestData;
 import com.team11.dataanalytics.openfeign.client.PythonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+@Component
 public class GetDataUtil {
 
 
-    @Autowired
-    private PythonClient pythonClient;
+   @Autowired
+    PythonDataReader pythonDataReader;
 
 
-    public static ArrayList<MinuteData> getDataWith1Min(String symbol,String date)
+    public  ArrayList<MinuteData> getDataWith1Min(String symbol,String date)
     {
         ArrayList<MinuteData> data=new ArrayList<>();
-        //读取文件data
-        String filepath="target/classes/ProcessedData/"+symbol+"/1.csv";
-        data = GetDataUtil.readMinuteData(filepath,date);
+        data = readMinuteData(symbol,date,date,null,null);
 
         return  data;
     }
@@ -30,9 +36,7 @@ public class GetDataUtil {
     public static ArrayList<TestData> getDataWith3Min(String symbol)
     {
         ArrayList<TestData> data=new ArrayList<>();
-        //读取文件data
-        String filepath="target/classes/ProcessedData/"+symbol+"/3.csv";
-        data = GetDataUtil.read(filepath);
+        data = read3MinData(symbol,);
 
         return  data;
     }
@@ -66,68 +70,34 @@ public class GetDataUtil {
         return data;
 
     }
-    public static ArrayList<TestData> read(String filePath){
 
-        ArrayList<TestData> data=new ArrayList<>();
-        System.out.println("start reading");
-        try {
-            // 创建CSV读对象
-            CsvReader csvReader = new CsvReader(filePath);
-
-            // 读表头
-            csvReader.readHeaders();
-            while (csvReader.readRecord()){
-                // 读一整行
-                //System.out.println(csvReader.getRawRecord());
-                TestData testData = new TestData(csvReader.get("Date"),
-                        csvReader.get("Time"),
-                        csvReader.get("Open"),
-                        csvReader.get("Close"),
-                        csvReader.get("High"),
-                        csvReader.get("Low"),
-                        csvReader.get("Volume"),
-                        csvReader.get("Split Factor"),
-                        csvReader.get("Earnings"),
-                        csvReader.get("Dividends"));
-                data.add(testData);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return data;
-    }
-
-    public static ArrayList<MinuteData> readMinuteData(String filePath,String date){
+    public  ArrayList<MinuteData> readMinuteData(String symbol,String start,String end,String flag,String slice){
 
         ArrayList<MinuteData> data=new ArrayList<>();
-        System.out.println("start reading"+filePath+"|"+date);
-        try {
-            // 创建CSV读对象
-            CsvReader csvReader = new CsvReader(filePath);
 
-            // 读表头
-            csvReader.readHeaders();
-            while (csvReader.readRecord()){
+        List<Data> originDatas=new ArrayList<>();
+        if(flag==null&slice==null){
+            //远程获取一天分钟时间数据(原始数据）
+            originDatas=pythonDataReader.GetOriginData(symbol,start,end);
+        }else if(flag!=null&slice!=null){
+            originDatas=pythonDataReader.GetDataBySymbolSlice(symbol,flag,slice);
+        }
+           for(Data originData:originDatas){
                 // 读一整行
                 //System.out.println(csvReader.getRawRecord());
-
-                System.out.println(csvReader.get("Date").replace('/','-').replace("-0","-")+"|"+date);
-                if(csvReader.get("Date").replace('/','-').replace("-0","-").equals(date)) {
-                    System.out.println(csvReader.get("Date")+date);
-                    MinuteData minuteData = new MinuteData(csvReader.get("Date"),
-                            csvReader.get("Time"),
-                            csvReader.get("Close"),
-                            String.valueOf((Float.valueOf(csvReader.get("High")) +
-                                    Float.valueOf(csvReader.get("Low"))) / 2),
-                            csvReader.get("Volume"));
+               MinutesData minutesData= (MinutesData) originData;
+                if(minutesData.getDate().replace("-0","-").equals(start)||
+                        minutesData.getDate().replace("-0","-").equals(end)) {
+                    minutesData.setDate(minutesData.getDate().replace("-0","-").toString());
+                    MinuteData minuteData = new MinuteData(minutesData.getDate(),
+                            minutesData.getTime(),
+                            String.valueOf(minutesData.getClose()),
+                            String.valueOf((minutesData.getHigh() +
+                                    minutesData.getLow()) / 2),
+                           String.valueOf(minutesData.getVolume()));
                     data.add(minuteData);
                 }
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         return data;
     }
 

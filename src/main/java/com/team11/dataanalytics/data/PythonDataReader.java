@@ -19,6 +19,8 @@ public class PythonDataReader {
         this.parameters.add("symbol");
         this.parameters.add("flag");
         this.parameters.add("slices");
+        this.parameters.add("start");
+        this.parameters.add("end");
         this.parameters.add("MACD");
         this.parameters.add("RSI");
         this.parameters.add("KDJ");
@@ -129,7 +131,7 @@ public class PythonDataReader {
     * return:
     *       list of Data Object
     * */
-    public List<Data> GetDataBySymbolSlice(String symbol, String flag, String slice){
+    public List<Data> GetDataBySymbolSlice(String symbol, String flag, String slice,String start,String end){
         String result = this.pythonClient.pythonGetDataByDict(SetParam(symbol, flag, slice));
         return this.ParseData(result, symbol, flag);
     }

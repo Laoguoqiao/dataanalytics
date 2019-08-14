@@ -1,6 +1,9 @@
 package com.team11.dataanalytics.domain;
 
-public class MinuteData {
+import com.team11.dataanalytics.data.Data;
+import com.team11.dataanalytics.data.MinutesData;
+
+public class MinuteData  {
     private String date;
     private String time;
     private String current;
@@ -8,7 +11,7 @@ public class MinuteData {
     private String volume;
 
     public MinuteData(String date,String time,String current,String average,String volume)
-    {
+    {    super();
         this.date=date;
         this.time=time;
         this.current=current;

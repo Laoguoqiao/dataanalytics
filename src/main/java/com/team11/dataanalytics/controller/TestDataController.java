@@ -5,6 +5,7 @@ import com.team11.dataanalytics.utils.GetDataUtil;
 import com.team11.dataanalytics.utils.Util;
 import io.swagger.annotations.ApiOperation;
 import javassist.NotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,8 @@ import java.util.List;
 @RequestMapping("/api/data")
 public class TestDataController {
 
-
+    @Autowired
+    private  GetDataUtil getDataUtil;
 
 
     @CrossOrigin
@@ -23,7 +25,7 @@ public class TestDataController {
     public Object getDataWith1Min(@PathVariable("symbol") String symbol, @PathVariable("date") String date) throws NotFoundException
     {
         System.out.println("开始分时 股票为："+symbol+"日期为："+date);
-        return GetDataUtil.getDataWith1Min(symbol,date);
+        return getDataUtil.getDataWith1Min(symbol,date);
     }
 
 
