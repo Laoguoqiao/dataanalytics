@@ -70,7 +70,7 @@ public class PythonDataReader {
 
             for (String key : sortSet) {
                 JSONObject subObject = jsonObject.getJSONObject(key);
-                String date = subObject.getString("Date")
+                String date = subObject.getString("Date");
                 String open = subObject.getString("Open");
                 String high = subObject.getString("High");
                 String low = subObject.getString("Low");
