@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/data")
 public class TestDataController {
+
 
     @ApiOperation(value="获取股票分钟数据", notes="根据symbol获取股票分钟数据")
     @GetMapping(value = "/data/1/{symbol}")
@@ -23,6 +25,7 @@ public class TestDataController {
         return GetDataUtil.getDataWith1Min(symbol);
     }
 
+
     @ApiOperation(value="获取股票分钟数据", notes="根据symbol获取股票分钟数据")
     @GetMapping(value = "/data/3/{symbol}")
     @ResponseStatus(HttpStatus.OK)
@@ -30,6 +33,7 @@ public class TestDataController {
     {
         return GetDataUtil.getDataWith3Min(symbol);
     }
+
 
     @ApiOperation(value="获取股票5分钟数据", notes="根据symbol获取股票5分钟数据")
     @GetMapping(value = "/data/5/{symbol}")

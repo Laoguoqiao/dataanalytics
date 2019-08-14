@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class GetDataUtil {
 
 
-    
+
 
     @Autowired
     private PythonClient pythonClient;
