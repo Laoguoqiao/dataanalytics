@@ -62,7 +62,7 @@ public class PythonDataReader {
     }
 
     private List<Data> ParseOtherData(String result, String flag){
-        if(flag == "lastday")
+        if(flag.equals("lastday"))
             return this.ParseData(result, flag);
         return new ArrayList<Data>();
     }

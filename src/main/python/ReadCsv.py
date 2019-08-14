@@ -81,14 +81,14 @@ class ReadCsv :
             '' if flag == 'min' else '_' + flag) + '.csv'
         # print(filename)
 
+        df = pd.read_csv(filename)
+        df = df[(df['Date'] >= datetime.strptime(start, "%Y-%m-%d").strftime("%Y-%m-%d")) &
+                (df['Date'] <= datetime.strptime(end, "%Y-%m-%d").strftime("%Y-%m-%d"))]
         if flag == 'min':
-            df = pd.read_csv(filename)
-            df = df[(df['Date'] >= datetime.strptime(start, "%Y-%m-%d").strftime("%Y-%m-%d") )&
-                    (df['Date'] <= datetime.strptime(end, "%Y-%m-%d").strftime("%Y-%m-%d"))]
             df['Time'] = df['Time'].apply(str).str.replace(':', '')
             df = ReIndex(df)
         else:
-            df = pd.read_csv(filename, index_col=0)
+            df = df.set_index('Date')
         if json :
             return df.T.to_json()
         else:
