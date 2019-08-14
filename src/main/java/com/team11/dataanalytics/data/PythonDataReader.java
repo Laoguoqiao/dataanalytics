@@ -19,6 +19,8 @@ public class PythonDataReader {
         this.parameters.add("symbol");
         this.parameters.add("flag");
         this.parameters.add("slices");
+        this.parameters.add("start");
+        this.parameters.add("end");
         this.parameters.add("MACD");
         this.parameters.add("RSI");
         this.parameters.add("KDJ");
@@ -44,6 +46,14 @@ public class PythonDataReader {
             i ++;
         }
         if(i==3){
+            map.put(this.parameters.get(i), "2016-01-04");
+            i ++;
+        }
+        if(i==4){
+            map.put(this.parameters.get(i), "2016-03-24");
+            i ++;
+        }
+        if(i==5){
             map.put(this.parameters.get(i++), "False");
             map.put(this.parameters.get(i++), "False");
             map.put(this.parameters.get(i++), "False");
@@ -129,8 +139,8 @@ public class PythonDataReader {
     * return:
     *       list of Data Object
     * */
-    public List<Data> GetDataBySymbolSlice(String symbol, String flag, String slice){
-        String result = this.pythonClient.pythonGetDataByDict(SetParam(symbol, flag, slice));
+    public List<Data> GetDataBySymbolSlice(String symbol, String flag, String slice, String start, String end){
+        String result = this.pythonClient.pythonGetDataByDict(SetParam(symbol, flag, slice, start, end));
         return this.ParseData(result, symbol, flag);
     }
 

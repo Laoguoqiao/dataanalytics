@@ -13,11 +13,13 @@ from pyecharts import Line
 from Indicator import Indicator
 from ReadCsv import ReadCsv
 import datetime
-import time
+from YahooSpyder import YahooSpyder
 
 app = Flask(__name__)
 indicator = Indicator()
 csvReader = ReadCsv()
+spyder = YahooSpyder()
+
 
 def str2date(str,date_format="%Y-%m-%d"):
     date = datetime.datetime.strptime(str, date_format)
@@ -26,6 +28,17 @@ def str2date(str,date_format="%Y-%m-%d"):
 # @app.route('/analysisData', methods=['GET', 'POST'])
 # def analysis_data():
 #    return request.args.get("name")
+
+
+@app.route('/getYahooData', methods=['GET', 'POST'])
+def get_yahoo_data():
+    directory = request.get_json()
+    # directory = eval(directory)
+    # print(directory)
+    data = spyder.getData(symbol=directory['symbol'],
+                          start=directory['start'],
+                          end=directory['end'])
+    return data
 
 
 @app.route('/getOriginData', methods=['GET', 'POST'])
@@ -82,7 +95,8 @@ def get_data_by_dict() :
     #directory = eval(directory)
     #print(directory)
     data = csvReader.get_data_by_symbol_slice(symbol=directory['symbol'], flag=directory['flag'],
-                                              slices=directory['slices'], RSI=eval(directory['RSI']),
+                                              slices=directory['slices'], start=directory['start'],
+                                              end=directory['end'], RSI=eval(directory['RSI']),
                                               MACD=eval(directory['MACD']), KDJ=eval(directory['KDJ']))
     label = eval(data)
     print(label)

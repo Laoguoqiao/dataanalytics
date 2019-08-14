@@ -76,13 +76,14 @@ class ReadCsv :
         df = pd.read_csv(filename, index_col=0)
         return df.T.to_json()
 
-    def get_data_by_symbol(self, symbol, slices='1', flag='min', json=True) :
+    def get_data_by_symbol(self, symbol, slices='1', flag='min', start='', end='', json=True) :
         filename = self.root + 'ProcessedData\\' + symbol + '\\' + slices + (
             '' if flag == 'min' else '_' + flag) + '.csv'
         # print(filename)
 
         if flag == 'min':
             df = pd.read_csv(filename)
+            df = df[(df['Date'] >= start) & (df['Date'] <= end)]
             df['Time'] = df['Time'].apply(str).str.replace(':', '')
             df = ReIndex(df)
         else:
@@ -92,8 +93,8 @@ class ReadCsv :
         else:
             return df
 
-    def get_data_by_symbol_slice(self, symbol, flag, slices, MACD=False, RSI=False, KDJ=False) :
-        data = self.get_data_by_symbol(symbol, slices=slices, flag=flag, json=False)
+    def get_data_by_symbol_slice(self, symbol, flag, slices, start='', end='', MACD=False, RSI=False, KDJ=False) :
+        data = self.get_data_by_symbol(symbol, slices=slices, flag=flag, start=start, end=end, json=False)
         if MACD:
             data = self.indicator.MACD(data)
         if RSI:
