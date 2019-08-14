@@ -27,8 +27,10 @@ public class PythonDataReaderTest {
 
     @Test
     public void getYahooData(){
-        List<Data> datalist = this.pythonDataReader.GetYahooData("a","2016-01-04","2016-01-05");
-        Assert.assertEquals(2, datalist.size());
+        List<Data> dataList = this.pythonDataReader.GetYahooData("a","2016-01-04","2016-01-05");
+        Assert.assertEquals(2, dataList.size());
+        Assert.assertEquals("2016-01-04", ((DailyData)dataList.get(0)).getDate());
+        Assert.assertEquals("2016-01-05", ((DailyData)dataList.get(1)).getDate());
 //        for(Data data : datalist){
 //            System.out.println(data.toString());
 //        }
@@ -36,17 +38,19 @@ public class PythonDataReaderTest {
 
     @Test
     public void getOriginData(){
-        List<Data> dataList = this.pythonDataReader.GetOriginData("aapl","2016-02-14", "2016-02-15");
+        List<Data> dataList = this.pythonDataReader.GetOriginData("aapl","2016-02-19", "2016-02-20");
         Assert.assertEquals(2, dataList.size());
+        Assert.assertEquals("2016-02-19", ((DailyData)dataList.get(0)).getDate());
+        Assert.assertEquals("2016-02-20", ((DailyData)dataList.get(1)).getDate());
     }
 
     @Test
     public void GetDataBySymbolSlice(){
         List<Data> dataList = this.pythonDataReader.GetDataBySymbolSlice("aapl", "day","1",
-                "2016-02-14", "2016-02-15");
+                "2016-02-19", "2016-02-20");
         Assert.assertEquals(2, dataList.size());
-        Assert.assertEquals("2016-02-14", ((DailyData)dataList.get(0)).getDate());
-        Assert.assertEquals("2016-02-15", ((DailyData)dataList.get(1)).getDate());
+        Assert.assertEquals("2016-02-19", ((DailyData)dataList.get(0)).getDate());
+        Assert.assertEquals("2016-02-20", ((DailyData)dataList.get(1)).getDate());
     }
 
 }
