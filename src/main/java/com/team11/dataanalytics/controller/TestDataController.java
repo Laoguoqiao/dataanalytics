@@ -10,18 +10,22 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/data")
 public class TestDataController {
 
-    @ApiOperation(value="获取股票分钟数据", notes="根据symbol获取股票分钟数据")
-    @GetMapping(value = "/data/1/{symbol}")
-    @ResponseStatus(HttpStatus.OK)
-    public Object getDataWith1Min(@PathVariable("symbol") String symbol) throws NotFoundException
+
+
+
+    @CrossOrigin
+    @RequestMapping(value = "/data/1/{symbol}/{date}", method = RequestMethod.GET)
+    public Object getDataWith1Min(@PathVariable("symbol") String symbol, @PathVariable("date") String date) throws NotFoundException
     {
-        System.out.println("开始分时");
-        return GetDataUtil.getDataWith1Min(symbol);
+        System.out.println("开始分时 股票为："+symbol+"日期为："+date);
+        return GetDataUtil.getDataWith1Min(symbol,date);
     }
+
 
     @ApiOperation(value="获取股票分钟数据", notes="根据symbol获取股票分钟数据")
     @GetMapping(value = "/data/3/{symbol}")
@@ -30,6 +34,7 @@ public class TestDataController {
     {
         return GetDataUtil.getDataWith3Min(symbol);
     }
+
 
     @ApiOperation(value="获取股票5分钟数据", notes="根据symbol获取股票5分钟数据")
     @GetMapping(value = "/data/5/{symbol}")
