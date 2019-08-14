@@ -35,15 +35,15 @@ public class TestDataController {
     }
     @Test
     public void getDataWith1Min() {
-//        MockHttpServletRequestBuilder mockHttpServletRequestBuilder =
-//                MockMvcRequestBuilders.get("http://127.0.0.1:8081/api/data/data/1/a/2016-3-24");
-//        mockHttpServletRequestBuilder.param("symbol", "a");
-//
-//        String responseString = mockMvc.perform(
-//                MockMvcRequestBuilders.get("/comment").
-//                        contentType(MediaType.APPLICATION_FORM_URLENCODED).
-//                        param("itemId","1").
-//                        param("a", "hanzl").andExpect(status().isOk())//返回的状态是200
+        MockHttpServletRequestBuilder mockHttpServletRequestBuilder =
+                MockMvcRequestBuilders.get("http://127.0.0.1:8081/api/data/data/1/a/2016-3-24");
+        mockHttpServletRequestBuilder.param("symbol", "a");
+        
+        String responseString = mockMvc.perform(
+                MockMvcRequestBuilders.get("/comment").
+                        contentType(MediaType.APPLICATION_FORM_URLENCODED).
+                        param("itemId","1").
+                        param("a", "hanzl").andExpect(status().isOk()));//返回的状态是200
 
 
     }
