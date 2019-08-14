@@ -111,7 +111,7 @@ public class PythonDataReader {
     }
 
     private List<Data> ParseData(String result, String symbol){
-        return this.ParseData(result, symbol, "min");
+        return this.ParseData(result, symbol, "day");
     }
 
     /*
@@ -126,7 +126,7 @@ public class PythonDataReader {
 
         String result = pythonClient.pythonGetDataByDict(this.SetParam(symbol));
 
-        return new ArrayList<Data>(this.ParseData(result, symbol,"day"));
+        return new ArrayList<Data>(this.ParseData(result, symbol));
     }
 
     /*
@@ -151,7 +151,7 @@ public class PythonDataReader {
         map.put("start", start);
         map.put("end", end);
         String result = this.pythonClient.pythonGetOriginData(map);
-        return this.ParseData(result, symbol);
+        return this.ParseData(result, symbol, "min");
     }
 
     public List<Data> GetOtherData(String flag){

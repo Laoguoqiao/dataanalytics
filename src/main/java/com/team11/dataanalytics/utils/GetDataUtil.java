@@ -66,7 +66,7 @@ public class GetDataUtil {
 
         ArrayList<MinuteData> data = new ArrayList<>();
 
-        List<Data> originDatas = new ArrayList<>();
+        List<Data> originDatas = new ArrayList<Data>();
         if (flag == null & slice == null) {
             //远程获取一天分钟时间数据(原始数据）
             originDatas = pythonDataReader.GetOriginData(symbol, start, end);
