@@ -88,7 +88,7 @@
                                 </ul>
                             </li>
 
-                            <li><a href="tables_dynamic.html"><i class="fa fa-table"></i> Table View <span
+                            <li><a href="http://127.0.0.1:8081/table"><i class="fa fa-table"></i> Table View <span
                                     class="fa fa-chevron-down"></span></a>
                             </li>
                         </ul>
@@ -323,7 +323,7 @@
                         arr[index][3] = parseFloat(item.volume);
                     });
                     console.log(arr);
-                    var mmdata = {data: arr, "yestclose": 33.01};
+                    var mmdata = {data: arr, "yestclose": arr[0][1]};
                     console.log(mdata);
                     // var kChart = echarts.init(document.getElementById('k-content'));
                     mChart.setOption(initMOption(mmdata, 'us'));
