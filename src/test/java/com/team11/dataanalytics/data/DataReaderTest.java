@@ -16,6 +16,7 @@ import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +37,14 @@ public class DataReaderTest {
 
     @Test
     public void pythonclient(){
-        String result = pythonClient.pythonGetDataBySymbolSlice("a","day","1");
+        Map<String, String> directory = new HashMap<>();
+        directory.put("symbol", "a");
+        directory.put("flag", "day");
+        directory.put("slices", "1");
+        directory.put("MACD", "False");
+        directory.put("RSI", "False");
+        directory.put("KDJ", "False");
+        String result = pythonClient.pythonGetDataByDict(directory);
         JSONObject jsonObject = (JSONObject) JSONObject.parse(result);
         System.out.println(jsonObject.keySet().toString());
         for (String key : jsonObject.keySet()) {

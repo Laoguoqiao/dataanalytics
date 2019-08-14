@@ -29,53 +29,66 @@ def str2date(str,date_format="%Y-%m-%d"):
 
 
 @app.route('/getOriginData', methods=['GET', 'POST'])
-def get_origin_data() :
-    symbol = request.get_data()
-    symbol = eval(symbol)
-    data = csvReader.LoadOriginData(symbol)
+def get_origin_data():
+    directory = request.get_json()
+    # directory = eval(directory)
+    # print(directory)
+    data = csvReader.LoadOriginData(symbol=directory['symbol'], start=directory['start'],
+                                              end=directory['end'])
     return data
 
 
-@app.route('/analysisData', methods=['GET', 'POST'])
-def analysis_data() :
-    return request.args.get("name")
+# @app.route('/analysisData', methods=['GET', 'POST'])
+# def analysis_data() :
+#     return request.args.get("name")
+#
+#
+# @app.route('/getDataBySymbol', methods=['GET', 'POST'])
+# def get_data_by_symbol() :
+#     # symbol = request.get_json()["symbol"]
+#     symbol = request.get_data()
+#     symbol = eval(symbol)
+#     data = csvReader.get_data_by_symbol(symbol)
+#     return data
+#
+#
+# @app.route('/getDataBySymbolSlice', methods=['GET', 'POST'])
+# def get_data_by_symbol_slice() :
+#     # symbol = request.get_json()["symbol"]
+#     directory = request.get_json()
+#     print(directory)
+#     # directory = eval(directory)
+#     # print(directory)
+#     data = csvReader.get_data_by_symbol_slice(symbol=directory['symbol'], flag=directory['flag'],
+#                                               slices=directory['slices'], RSI=eval(directory['RSI']),
+#                                               MACD=eval(directory['MACD']), KDJ=eval(directory['KDJ']))
+#     label = eval(data)
+#     print(label)
+#
+#     return data
 
+@app.route('/getOtherData', methods=['GET', 'POST'])
+def get_other_data():
+    directory = request.get_json()
 
-@app.route('/getDataBySymbol', methods=['GET', 'POST'])
-def get_data_by_symbol() :
-    # symbol = request.get_json()["symbol"]
-    symbol = request.get_data()
-    symbol = eval(symbol)
-    data = csvReader.get_data_by_symbol(symbol)
+    data = csvReader.get_other_data(flag=directory['flag'])
     return data
-
-
-@app.route('/getDataBySymbolSlice', methods=['GET', 'POST'])
-def get_data_by_symbol_slice() :
-    # symbol = request.get_json()["symbol"]
-    symbol = request.get_data()
-    symbol = eval(symbol)
-    print(symbol)
-    data = csvReader.get_data_by_symbol_slice(symbol[0], symbol[1], symbol[2])
-    label = eval(data)
-    print(label)
-
-    return data
-
 
 @app.route('/getDataByDict', methods=['GET', 'POST'])
-def get_data_by_symbol_slice() :
+def get_data_by_dict() :
     # symbol = request.get_json()["symbol"]
     directory = request.get_json()
-    directory = eval(directory)
     print(directory)
+    #directory = eval(directory)
+    #print(directory)
     data = csvReader.get_data_by_symbol_slice(symbol=directory['symbol'], flag=directory['flag'],
-                                              slices=directory['slices'], RSI=directory['RSI'],
-                                              MACD=directory['MACD'], KDJ=directory['KDJ'])
+                                              slices=directory['slices'], RSI=eval(directory['RSI']),
+                                              MACD=eval(directory['MACD']), KDJ=eval(directory['KDJ']))
     label = eval(data)
     print(label)
 
     return data
+
 
 def render_data(symbol, data):
     label = eval(data)
