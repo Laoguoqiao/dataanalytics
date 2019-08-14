@@ -64,6 +64,7 @@ public class UserController {
         return userService.update(id, user);
     }
 
+
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Object login(@RequestBody User user, HttpServletRequest  request)

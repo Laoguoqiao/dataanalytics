@@ -2,9 +2,7 @@ package com.team11.dataanalytics.domain;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -12,7 +10,8 @@ import javax.validation.constraints.NotNull;
 public class User {
     @Id
     @NotNull
-    @GeneratedValue(generator = "jpa-uuid")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "uid")
     private String uid;
     private String account;
     private String password;

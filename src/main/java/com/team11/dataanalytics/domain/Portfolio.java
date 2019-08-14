@@ -1,11 +1,12 @@
 package com.team11.dataanalytics.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Portfolio {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "pid")
     private String pid;
     private String uid;
     private String portfolioName;
