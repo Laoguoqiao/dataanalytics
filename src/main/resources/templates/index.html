@@ -306,7 +306,7 @@
                 async: false,
                 success: function (msg) {
                     test = msg;
-                    alert(test);
+                    //alert(test);
 
                     var map = {};
                     var arr = new Array(390); //表格有10行
@@ -348,6 +348,7 @@
                 default_date=String(start.format('YYYY-MM-DD')).replace(/\-0/g,"-");
                 //var da=default_date.replace(/\-0/g,"-");
                 //alert(default_date);
+               //myajax();
                 myajax2();
             });
             $("#search-button").click(function(){
@@ -358,7 +359,7 @@
                     return false;
                 }
                 a = content;
-                alert(a);
+                //alert(a);
                 myajax2();
                 myajax();
 
