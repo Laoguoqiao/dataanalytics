@@ -18,11 +18,47 @@ public class GetDataUtilTest {
 
     @Test
     public void read() {
-        GetDataUtil.read("target/classes/ProcessedData/a/1.csv");
+        //GetDataUtil.read("target/classes/ProcessedData/a/1.csv");
     }
 
     @Test
     public void readStockData() {
-        GetDataUtil.readStockData("target/classes/ProcessedData/lastday.csv");
+       // GetDataUtil.readStockData("target/classes/ProcessedData/lastday.csv");
+    }
+
+    @Test
+    public void testGetDataWith1Min() {
+    }
+
+    @Test
+    public void getDataWith3Min() {
+    }
+
+    @Test
+    public void getDataWith5Min() {
+    }
+
+    @Test
+    public void getDataWith1Day() {
+    }
+
+    @Test
+    public void getStockData() {
+    }
+
+    @Test
+    public void testRead() {
+    }
+
+    @Test
+    public void readMinuteData() {
+    }
+
+    @Test
+    public void readWithoutTime() {
+    }
+
+    @Test
+    public void testReadStockData() {
     }
 }

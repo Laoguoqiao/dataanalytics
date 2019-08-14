@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -8,15 +8,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login! | </title>
 
-    <link href="../static/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/vendors/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet">
 
-    <link href="../static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link th:href="@{/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet">
 
-    <link href="../static/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <link th:href="@{/vendors/nprogress/nprogress.css}" rel="stylesheet">
 
-    <link href="../static/vendors/animate.css/animate.min.css" rel="stylesheet">
+    <link th:href="@{/vendors/animate.css/animate.min.css}" rel="stylesheet">
 
-    <link href="../static/build/css/custom.min.css" rel="stylesheet">
+    <link th:href="@{/build/css/custom.min.css}" rel="stylesheet">
 
 
 </head>
@@ -115,7 +115,7 @@
                  success:function(msg){
                      alert(msg);
                      if(msg=="Success"){
-                         window.location.href = "index.html";
+                         window.location.href = "http://127.0.0.1:8081/index";
                      }else{
                          alert("登录失败，请重试!");
                      }

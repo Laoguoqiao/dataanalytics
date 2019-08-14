@@ -144,6 +144,7 @@ public class PythonDataReader {
     * return:
     *       list of Data Object
     * */
+
     public List<Data> GetDataBySymbolSlice(String symbol, String flag, String slice, String start, String end){
         String result = this.pythonClient.pythonGetDataByDict(SetParam(symbol, flag, slice, start, end));
         return this.ParseData(result, symbol, flag);
