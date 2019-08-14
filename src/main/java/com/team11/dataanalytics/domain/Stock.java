@@ -1,11 +1,12 @@
 package com.team11.dataanalytics.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Stock {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "sid")
     private int sid;
 
     private String symbol;
