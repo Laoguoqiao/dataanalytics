@@ -73,9 +73,8 @@
                     <div class="menu_section">
                         <h3>General</h3>
                         <ul class="nav side-menu">
-                            <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
+                            <li><a href="http://127.0.0.1:8081/index"><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a th:href="@{/toIndex}">EChart</a></li>
                                     <!--<li><a th:href="@{/toIndex3}">HomeChart2</a></li>-->
                                 </ul>
                             </li>
@@ -287,7 +286,7 @@
                     //alert(kdata);
                     //alert(tr);
                     test = kdata;
-                    console.log(arr);
+                    //console.log(arr);
                     // var kChart = echarts.init(document.getElementById('k-content'));
                     kChart.setOption(initKOption(arr));
                     //kChart= echarts.init(document.getElementById('k-content'));
@@ -315,7 +314,7 @@
                     }
 
                     var j = 0;
-                    console.log(msg);
+                    //console.log(msg);
                     $.each(msg, function (index, item) {
                         arr[index][0] = item.time;
                         arr[index][1] = parseFloat(item.current);
@@ -323,10 +322,15 @@
                         arr[index][3] = parseFloat(item.volume);
                     });
                     console.log(arr);
+                    //var mmdata = {data: arr, "yestclose": arr[0][1]};
+                    console.log(mdata.data);
+                    var md=arr.concat(mdata.data);
+
+                    console.log(md);
                     var mmdata = {data: arr, "yestclose": arr[0][1]};
-                    console.log(mdata);
                     // var kChart = echarts.init(document.getElementById('k-content'));
                     mChart.setOption(initMOption(mmdata, 'us'));
+                    //mChart.setOption(initMOption(mdata, 'us'));
                     //kChart= echarts.init(document.getElementById('k-content'));
 
 
