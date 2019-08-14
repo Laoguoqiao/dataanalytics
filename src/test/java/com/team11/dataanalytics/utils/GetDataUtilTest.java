@@ -12,8 +12,8 @@ public class GetDataUtilTest {
 
     @Test
     public void getDataWith1Min() {
-        ArrayList<MinuteData> data = GetDataUtil.getDataWith1Min("target/classes/ProcessedData/a/1.csv");
-        System.out.println(data.toString());
+        //ArrayList<MinuteData> data = GetDataUtil.getDataWith1Min("target/classes/ProcessedData/a/1.csv");
+        //System.out.println(data.toString());
     }
 
     @Test
