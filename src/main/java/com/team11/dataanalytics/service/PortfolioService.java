@@ -4,6 +4,7 @@ import com.team11.dataanalytics.dao.PortfolioRepository;
 import com.team11.dataanalytics.domain.Portfolio;
 import com.team11.dataanalytics.utils.Util;
 import javassist.NotFoundException;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.List;
 public class PortfolioService {
     @Autowired
     private PortfolioRepository portfolioRepository;
+
 
     public String addPortfolio(Portfolio portfolio) {
         StringBuilder result = new StringBuilder();
@@ -58,28 +60,26 @@ public class PortfolioService {
         return result.toString();
     }
 
-    public List<Portfolio> getPortfolioList()
-    {
+    public List<Portfolio> getPortfolioList() {
         return portfolioRepository.findAll();
     }
 
-    public Portfolio getPortfolio(String id)
-    {
+    public Portfolio getPortfolio(String id) {
         return portfolioRepository.findById(id).get();
     }
 
-    public Portfolio getPortfolioByUid(String uid)
-    {
+    public Portfolio getPortfolioByUid(String uid) throws NotFoundException {
         return portfolioRepository.findByUid(uid);
     }
 
-    public void deletePortfolio(String id)
-    {
+
+    public void deletePortfolio(String id) {
+
         portfolioRepository.deleteById(id);
     }
 
-    public Portfolio update(String id, Portfolio portfolio)
-    {
+
+    public Portfolio update(String id, Portfolio portfolio) {
         Portfolio currentInstance = portfolioRepository.findById(id).get();
 
         //支持部分更新

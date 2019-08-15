@@ -32,12 +32,15 @@ public class TestDataController {
     @Test
     public void getDataWith1Min() throws Exception { ;
         
+
+
         String responseString = mockMvc.perform(
                 MockMvcRequestBuilders.get("/api/data/data/1/{symbol}/{date}","a","2016-3-24").
                         contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         ).andExpect(status().isOk()).
                 andDo(print()).andReturn().getResponse().getContentAsString();
         System.out.println(responseString);
+
 
 
     }

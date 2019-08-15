@@ -39,7 +39,7 @@
                     </div>
                     <div>
                         <a class="btn btn-default submit" id="login_btn" >Log in</a>
-                        <a class="reset_pass" href="#">Lost your password?</a>
+                        <a class="reset_pass" href="#"></a>
                     </div>
                     <div class="clearfix"></div>
                     <div class="separator">
@@ -50,7 +50,7 @@
                         <br />
                         <div>
                             <h1><i class="fa fa-paw"></i> Data Analystics!</h1>
-                            <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
+                            <p>2019 CSTC Shanghai</p>
                         </div>
                     </div>
                 </form>
@@ -81,7 +81,7 @@
                         <br />
                         <div>
                             <h1><i class="fa fa-paw"></i> Data Analystics!</h1>
-                            <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
+                            <p>2019 CSTC Shanghai</p>
                         </div>
                     </div>
                 </form>
@@ -96,10 +96,10 @@
              var username = $.trim($("#username").val());
              var password = $.trim($("#password").val());
              if(username == ""){
-                 alert("请输入用户名");
+                 alert("Please Input Account");
                  return false;
              }else if(password == ""){
-                 alert("请输入密码");
+                 alert("Please Input Password");
                  return false;
              }
              //ajax去服务器端校验
@@ -113,11 +113,13 @@
                  dataType:'text',
                  contentType: "application/json; charset=utf-8",
                  success:function(msg){
-                     alert(msg);
+                     //alert(msg);
                      if(msg=="Success"){
-                         window.location.href = "http://127.0.0.1:8081/index";
+                         var url="index"+"?"+"symbol="+"a";
+                         //alert(url);
+                         window.location.href = url;
                      }else{
-                         alert("登录失败，请重试!");
+                         alert("Login Failed!");
                      }
                  }
              });
@@ -129,13 +131,13 @@
              var password = $.trim($("#r_password").val());
              var c_password = $.trim($("#r_c_password").val());
              if(username == ""){
-                 alert("请输入用户名");
+                 alert("Please Input Account");
                  return false;
              }else if(password == ""){
-                 alert("请输入密码");
+                 alert("Please Input Password");
                  return false;
              }else if(c_password == ""){
-                 alert("请确认密码")
+                 alert("Please Confirm")
                  return false;
              }
              //ajax去服务器端校验
@@ -149,11 +151,13 @@
                  dataType:'text',
                  contentType: "application/json; charset=utf-8",
                  success:function(msg){
-                     alert(msg);
+                     //alert(msg);
                      if(msg=="Failed"){
-                         alert("注册失败，请重试!");
+                         alert("Failed，Please retry!");
                      }else{
-                         window.location.href = "index.html";
+                         var url="index"+"?"+"symbol="+"a";
+                         alert("Success");
+                         //window.location.href = url;
                      }
                  }
              });
