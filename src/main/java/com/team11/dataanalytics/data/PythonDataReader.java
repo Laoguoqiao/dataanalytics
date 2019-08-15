@@ -197,4 +197,13 @@ public class PythonDataReader {
         String result = this.pythonClient.pythonGetYahooData(map);
         return this.ParseData(result, symbol, "yahoo");
     }
+
+    public String GetChartData(String symbol, String flag, String slice,
+                                   String start, String end, String MACD,
+                                   String RSI, String KDJ) {
+        String result = this.pythonClient.pythonGetChartHtml(SetParam(symbol,
+                flag, slice, start, end, MACD, RSI, KDJ));
+
+        return result;
+    }
 }

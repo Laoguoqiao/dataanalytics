@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button onclick="update()">Update</button>
+<div>
+    <span><label>symbol</label><input id="symbol"></span>
+    <span><label>flag</label><input id="flag"></span>
+    <span><label>slice</label><input id="slice"></span>
+    <span><label>start</label><input id="start"></span>
+    <span><label>end</label><input id="end"></span>
+    <span><label>MACD</label><input id="MACD"></span>
+    <span><label>RSI</label><input id="RSI"></span>
+    <span><label>KDJ</label><input id="KDJ"></span>
+</div>
+<div id="chart" style="width:50%"></div>
+<div id="4c77712c53d44c4ab083399438767d54" style="width:800px;height:400px;"></div>
+<script type="text/javascript">
+    var symbol = "a";
+    var flag = "day";
+    var slice = "1";
+    var start = "2016-01-04";
+    var end = "2016-03-24";
+    var MACD = "False";
+    var RSI = "False";
+    var KDJ = "False";
+    function update() {
+        var chart = document.getElementById("chart");
+
+        $(function(){
+            $.ajax({
+                type: "GET",
+                url: "http://127.0.0.1:8081/api/data/chart/" + symbol + "_" + flag + "_" + slice +
+                    "/" + start + "_" + end + "/" + MACD + "&" + RSI + "&" + KDJ,
+                data: "",
+                dataType: '',
+                contentType: "application/json; charset=utf-8",
+                async: false,
+                success: function (msg) {
+                    chart.innerHTML = msg;
+                }
+            });
+        })
+        }
+    }
+
+</script>
+</body>
+</html>
