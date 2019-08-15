@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script srt="echarts.min.js"></script>
 </head>
 <body>
 <button onclick="update()">Update</button>
@@ -17,7 +18,6 @@
     <span><label>KDJ</label><input id="KDJ"></span>
 </div>
 <div id="chart" style="width:50%"></div>
-<div id="4c77712c53d44c4ab083399438767d54" style="width:800px;height:400px;"></div>
 <script type="text/javascript">
     var symbol = "a";
     var flag = "day";
@@ -27,25 +27,18 @@
     var MACD = "False";
     var RSI = "False";
     var KDJ = "False";
-    function update() {
-        var chart = document.getElementById("chart");
 
-        $(function(){
-            $.ajax({
-                type: "GET",
-                url: "http://127.0.0.1:8081/api/data/chart/" + symbol + "_" + flag + "_" + slice +
-                    "/" + start + "_" + end + "/" + MACD + "&" + RSI + "&" + KDJ,
-                data: "",
-                dataType: '',
-                contentType: "application/json; charset=utf-8",
-                async: false,
-                success: function (msg) {
-                    chart.innerHTML = msg;
-                }
-            });
-        })
+    var myChart = echarts.init(document.getElementById('chart'));
+    var option = {
+        title:{
+            text: symbol
+        },
+        tooltip:{},
+        lengend:{
+            
         }
     }
+
 
 </script>
 </body>
