@@ -227,6 +227,28 @@
   </div>
 </div>
 
+<<<<<<< HEAD
+        $("#datatable-buttons").dataTable(
+                {
+                  searching : true,
+                  destroy : true,
+                  "ajax": {
+                    "url": "http://127.0.0.1:8081/api/data/data/stocks",
+                    "type": "get",
+                    "dataSrc":"",
+                  },
+                  columns: [
+                    { data: 'symbol' },
+                    { data: 'date' },
+                    { data: 'open' },
+                    { data: 'high' },
+                    { data: 'low' },
+                    { data: 'close' },
+                    { data: 'volume' },
+                    { data: 'split_factor' },
+                    { data: 'earning' },
+                    { data: 'dividends' }
+=======
 <!-- Custom Theme Scripts -->
 <script type="text/javascript">
   var userAccount;
@@ -249,6 +271,7 @@
         alert("No User Detected!");
       }
     })
+>>>>>>> 6a15221ce71943d12ecabda3e5c506580ab82277
 
     $('#datatable-buttons').dataTable(
             {

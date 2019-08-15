@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.Map;
 // hotpot 192.168.43.8
 // home 192.168.0.102
-@FeignClient(url = "http://192.168.43.8:5000", name = "PythonServer")
+@FeignClient(url = "http://192.168.0.102:5000", name = "PythonServer")
 @Component
 public interface PythonClient {
 
@@ -25,4 +25,7 @@ public interface PythonClient {
 
     @RequestMapping(value = "/getYahooData", method = RequestMethod.POST, consumes="application/json")
     String pythonGetYahooData(Map map);
+
+    @RequestMapping(value = "/getChartHtml", method = RequestMethod.POST, consumes="application/json")
+    String pythonGetChartHtml(Map map);
 }

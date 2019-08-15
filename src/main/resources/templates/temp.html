@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script srt="echarts.min.js"></script>
+</head>
+<body>
+<button onclick="update()">Update</button>
+<div>
+    <span><label>symbol</label><input id="symbol"></span>
+    <span><label>flag</label><input id="flag"></span>
+    <span><label>slice</label><input id="slice"></span>
+    <span><label>start</label><input id="start"></span>
+    <span><label>end</label><input id="end"></span>
+    <span><label>MACD</label><input id="MACD"></span>
+    <span><label>RSI</label><input id="RSI"></span>
+    <span><label>KDJ</label><input id="KDJ"></span>
+</div>
+<div id="chart" style="width:50%"></div>
+<script type="text/javascript">
+    var symbol = "a";
+    var flag = "day";
+    var slice = "1";
+    var start = "2016-01-04";
+    var end = "2016-03-24";
+    var MACD = "False";
+    var RSI = "False";
+    var KDJ = "False";
+
+    var myChart = echarts.init(document.getElementById('chart'));
+    var option = {
+        title:{
+            text: symbol
+        },
+        tooltip:{},
+        lengend:{
+            
+        }
+    }
+
+
+</script>
+</body>
+</html>

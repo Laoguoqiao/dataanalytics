@@ -2,10 +2,9 @@ package com.team11.dataanalytics.service;
 
 import com.team11.dataanalytics.dao.PortfolioRepository;
 import com.team11.dataanalytics.domain.Portfolio;
-import com.team11.dataanalytics.domain.Stock;
 import com.team11.dataanalytics.utils.Util;
 import javassist.NotFoundException;
-import org.hibernate.ObjectDeletedException;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,7 @@ public class PortfolioService {
     private PortfolioRepository portfolioRepository;
 
 
-    public String addPortfolio(Portfolio portfolio) throws ObjectDeletedException {
+    public String addPortfolio(Portfolio portfolio) {
         StringBuilder result = new StringBuilder();
         boolean exists = false;
         List<Portfolio> portfolioList = this.getPortfolioList();

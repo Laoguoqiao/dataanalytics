@@ -6,12 +6,11 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@GenericGenerator(name = "jpa-uuid", strategy = "uuid")
+
 public class User {
     @Id
-    @NotNull
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "uid")
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String uid;
     private String account;
     private String password;

@@ -2,22 +2,25 @@ package com.team11.dataanalytics.domain;
 
 import org.hibernate.annotations.GenericGenerator;
 
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
 @GenericGenerator(name = "jpa-uuid", strategy = "uuid")
 public class Portfolio {
     @Id
-    @NotNull
-    @GeneratedValue(generator = "jpa-uuid")
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
+
     private String pid;
 
     private String uid;
-    private String stock_list;
+
+    private String stockList;
+
 
     public String getPid() {
         return pid;
@@ -36,11 +39,11 @@ public class Portfolio {
     }
 
     public String getStockList() {
-        return stock_list;
+        return stockList;
     }
 
     public void setStockList(String stockList) {
-        this.stock_list = stockList;
+        this.stockList = stockList;
     }
 
     public void updateStockList(List<String> stockList){
@@ -52,4 +55,5 @@ public class Portfolio {
         sb.append(stockList.get(stockList.size()-1));
         this.setStockList(sb.toString());
     }
+
 }

@@ -72,11 +72,39 @@ public class DataController {
 
     @CrossOrigin
     @ApiOperation(value = "获取一天的数据")
-    @RequestMapping(value = "/data/1day/{symbol}", method = RequestMethod.GET)
-    public Object getDataWith1Day(@PathVariable("symbol") String symbol) throws NotFoundException
+    @RequestMapping(value = "/data/1day/{symbol}/{start}_{end}", method = RequestMethod.GET)
+    public Object getDataWith1Day(@PathVariable("symbol") String symbol,
+                                  @PathVariable("start") String start,
+                                  @PathVariable("end") String end) throws NotFoundException
     {
-        System.out.println("开始读取1Day");
-        return getDataUtil.getDataWith1Day(symbol);
+        return getDataUtil.getDataWith1Day(symbol, start, end);
+    }
+
+    @CrossOrigin
+    @ApiOperation(value = "get yahoo stock data")
+    @RequestMapping(value = "/data/yahoo/{symbol}/{start}_{end}",
+            method = RequestMethod.GET)
+    public Object getYahooData(@PathVariable("symbol") String symbol,
+                                  @PathVariable("start") String start,
+                                  @PathVariable("end") String end) throws NotFoundException
+    {
+        return getDataUtil.pythonDataReader.GetYahooData(symbol, start, end);
+    }
+
+    @CrossOrigin
+    @ApiOperation(value = "get stock chart")
+    @RequestMapping(value = "/data/chart/{symbol}_{flag}_{slice}/{start}_{end}/{MACD}&{RSI}&{KDJ}",
+            method = RequestMethod.GET)
+    public Object getDataWith1Day(@PathVariable("symbol") String symbol,
+                                  @PathVariable("flag") String flag,
+                                  @PathVariable("slice") String slice,
+                                  @PathVariable("start") String start,
+                                  @PathVariable("end") String end,
+                                  @PathVariable("MACD") String MACD,
+                                  @PathVariable("RSI") String RSI,
+                                  @PathVariable("KDJ") String KDJ) throws NotFoundException
+    {
+        return getDataUtil.pythonDataReader.GetChartData(symbol, flag, slice, start, end, MACD, RSI, KDJ);
     }
 
     @CrossOrigin
