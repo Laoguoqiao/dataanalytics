@@ -97,7 +97,7 @@ public class PythonDataReader {
         Set<String> sortSet = new TreeSet<String>(Comparator.naturalOrder());
         sortSet.addAll(jsonObject.keySet());
 
-        System.out.println(sortSet.toString());
+        //System.out.println(sortSet.toString());
         for (String key : sortSet) {
             JSONObject subObject = jsonObject.getJSONObject(key);
             String open = subObject.getString("Open");

@@ -162,7 +162,9 @@
                     </span>
                         </div>
                         <div class="col-4">
+
                             <input type="text" name="birthday" class="form-control pull-right" value="3/24/2016">
+
                         </div>
                     </div>
                 </div>
@@ -239,6 +241,7 @@
     //mChart.setOption(initMOption(mdata,'us'));
     var kChart= echarts.init(document.getElementById('k-content'));
     //kChart.setOption(initKOption(kdata));
+
     function GetRequest() {
 
         var url = location.search; //获取url中含"?"符后的字串
@@ -280,6 +283,7 @@
 
     //var a="a";
     var default_date="2016-3-24"
+
     var test;
     var tr="";
     var slice="1";
@@ -377,7 +381,7 @@
             myajax();
             myajax2();
 
-            $('input[name="birthday"]').daterangepicker({
+            $('input[name="start"]').daterangepicker({
                 singleDatePicker: true,
                 showDropdowns: true,
                 minYear: 1901,
@@ -392,6 +396,21 @@
                //myajax();
                 myajax2();
             });
+        $('input[name="end"]').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            minYear: 1901,
+            maxYear: parseInt(moment().format('YYYY'),10)
+        }, function(start, end, label) {
+            // var years = moment().diff(start, 'years');
+            // var months = moment().diff(start, 'months');
+            // var days = moment().diff(start, 'days');
+            default_date=String(start.format('YYYY-MM-DD')).replace(/\-0/g,"-");
+            //var da=default_date.replace(/\-0/g,"-");
+            //alert(default_date);
+            //myajax();
+            myajax2();
+        });
             $("#search-button").click(function(){
 
                 var content = $.trim($("#search-content").val());

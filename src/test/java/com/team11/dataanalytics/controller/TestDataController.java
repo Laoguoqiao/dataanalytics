@@ -17,6 +17,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
@@ -34,16 +38,21 @@ public class TestDataController {
 
     }
     @Test
-    public void getDataWith1Min() {
-        MockHttpServletRequestBuilder mockHttpServletRequestBuilder =
-                MockMvcRequestBuilders.get("http://127.0.0.1:8081/api/data/data/1/a/2016-3-24");
-        mockHttpServletRequestBuilder.param("symbol", "a");
+    public void getDataWith1Min() throws Exception {
+//        MockHttpServletRequestBuilder mockHttpServletRequestBuilder =
+//                MockMvcRequestBuilders.get("http://127.0.0.1:8081/api/data/data/1/a/2016-3-24");
+//        mockHttpServletRequestBuilder.param("symbol", "a");
         
-//        String responseString = mockMvc.perform(
-//                MockMvcRequestBuilders.get("/comment").
-//                        contentType(MediaType.APPLICATION_FORM_URLENCODED).
-//                        param("itemId","1").
-//                        param("a", "hanzl").andExpect(status().isOk()));//返回的状态是200
+
+
+        String responseString = mockMvc.perform(
+                MockMvcRequestBuilders.get("/api/data/data/1/{symbol}/{date}").
+                        contentType(MediaType.APPLICATION_FORM_URLENCODED).
+                        param("symbol","a").
+                        param("date", "2016-3-24")).andExpect(status().isOk()).
+                andDo(print()).andReturn().getResponse().getContentAsString();
+    System.out.println(responseString);
+
 
 
     }

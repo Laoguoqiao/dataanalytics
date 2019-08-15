@@ -70,11 +70,16 @@ public class GetDataUtil {
         return data;
     }
 
-    public  ArrayList<DailyData> getLastDay() {
-        ArrayList<DailyData> data = new ArrayList<>();
-        data = readDailyData(null,"lastday");
+    public  List<Data> getLastDay() {
+        List<Data> data = new ArrayList<>();
+        data = this.pythonDataReader.GetOtherData("lastday");
+        //data = readDailyData(null,"lastday");
         return data;
+    }
 
+    public List<Data> getYahooData(String symbol, String start, String end){
+        List<Data> data = this.pythonDataReader.GetYahooData(symbol, start, end);
+        return data;
     }
 
     public ArrayList<MinuteData> readMinuteData(String symbol, String start, String end, String flag, String slice) {

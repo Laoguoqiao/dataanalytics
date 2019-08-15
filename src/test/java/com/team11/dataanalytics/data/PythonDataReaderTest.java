@@ -39,18 +39,20 @@ public class PythonDataReaderTest {
     @Test
     public void getOriginData(){
         List<Data> dataList = this.pythonDataReader.GetOriginData("aapl","2016-02-19", "2016-02-20");
-        Assert.assertEquals(2, dataList.size());
+        // Assert.assertEquals(2, dataList.size());
+        // no 20
         Assert.assertEquals("2016-02-19", ((DailyData)dataList.get(0)).getDate());
-        Assert.assertEquals("2016-02-20", ((DailyData)dataList.get(1)).getDate());
+        //Assert.assertEquals("2016-02-20", ((DailyData)dataList.get(1)).getDate());
     }
 
     @Test
     public void GetDataBySymbolSlice(){
         List<Data> dataList = this.pythonDataReader.GetDataBySymbolSlice("aapl", "day","1",
                 "2016-02-19", "2016-02-20");
-        Assert.assertEquals(2, dataList.size());
+        // no 20
+        Assert.assertEquals(1, dataList.size());
         Assert.assertEquals("2016-02-19", ((DailyData)dataList.get(0)).getDate());
-        Assert.assertEquals("2016-02-20", ((DailyData)dataList.get(1)).getDate());
+        //Assert.assertEquals("2016-02-20", ((DailyData)dataList.get(1)).getDate());
     }
 
 }
