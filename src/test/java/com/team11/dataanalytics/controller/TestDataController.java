@@ -43,6 +43,8 @@ public class TestDataController {
 //                MockMvcRequestBuilders.get("http://127.0.0.1:8081/api/data/data/1/a/2016-3-24");
 //        mockHttpServletRequestBuilder.param("symbol", "a");
         
+
+
         String responseString = mockMvc.perform(
                 MockMvcRequestBuilders.get("/api/data/data/1/{symbol}/{date}").
                         contentType(MediaType.APPLICATION_FORM_URLENCODED).
@@ -50,6 +52,7 @@ public class TestDataController {
                         param("date", "2016-3-24")).andExpect(status().isOk()).
                 andDo(print()).andReturn().getResponse().getContentAsString();
     System.out.println(responseString);
+
 
 
     }

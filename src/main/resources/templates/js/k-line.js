@@ -8,6 +8,7 @@ var ma10Color = "#da6ee8";
 var ma20Color = "#ffab42";
 var ma30Color = "#00940b";
 
+var os=1;
 /**
  * 15:20 时:分 格式时间增加num分钟
  * @param {Object} time 起始时间
@@ -51,11 +52,11 @@ function getNextTime(startTime, endTIme, offset, resultArr) {
  * 不同类型的股票的交易时间会不同  
  * @param {Object} type   hs=沪深  us=美股  hk=港股
  */
-var time_arr = function(type) { 
+var time_arr = function(type) {
 	if(type.indexOf('us')!=-1){//生成美股时间段
 		var timeArr = new Array();
 		timeArr.push('09:30')
-		return getNextTime('09:30', '16:00', 1, timeArr);
+		return getNextTime('09:30', '16:00', os, timeArr);
 	}
 	if(type.indexOf('hs')!=-1){//生成沪深时间段
 		var timeArr = new Array();
@@ -81,7 +82,7 @@ var get_m_data = function(m_data,type) {
 	var priceArr = new Array();
 	var avgPrice = new Array();
 	var vol = new Array();
-	var times = time_arr(type); 
+	var times = time_arr(type);
 	$.each(m_data.data, function(i, v) {
 		priceArr.push(v[1]);
 		avgPrice.push(v[2]);
@@ -105,7 +106,7 @@ var get_m_data = function(m_data,type) {
  * @param {Object} type 股票类型  us-美股  hs-沪深  hk-港股
  */
 function initMOption(m_data,type){
-	var m_datas = get_m_data(m_data,type); 
+	var m_datas = get_m_data(m_data,type);
 	return {
 		tooltip: { //弹框指示器
 			trigger: 'axis',
@@ -122,7 +123,7 @@ function initMOption(m_data,type){
 					color ='style="color:#26bf66"'; 
 				}
 	
-				var html = '<div class="commColor" style="width:100px;"><div>当前价 <span  '+color+' >' + m_datas.priceArr[i] + '</span></div>';
+				var html = '<div class="commColor" style="width:100px;"><div>CP <span  '+color+' >' + m_datas.priceArr[i] + '</span></div>';
 				html += '<div>均价 <span  '+color+' >' + m_datas.avgPrice[i] + '</span></div>';
 				html += '<div>涨幅 <span  '+color+' >' + ratioCalculate(m_datas.priceArr[i],m_data.yestclose)+ '%</span></div>';
 				html += '<div>成交量 <span  '+color+' >' + m_datas.vol[i] + '</span></div></div>'
@@ -274,7 +275,7 @@ function initMOption(m_data,type){
 		backgroundColor: bgColor,
 		blendMode: 'source-over',
 		series: [{
-				name: '当前价',
+				name: 'Current Price',
 				type: 'line',
 				data: m_datas.priceArr,
 				smooth: true,
@@ -301,7 +302,7 @@ function initMOption(m_data,type){
 				}
 			},
 			{
-				name: '均价',
+				name: 'Average Price',
 				type: 'line',
 				data: m_datas.avgPrice,
 				smooth: true,
@@ -648,7 +649,7 @@ function initKOption(cdata){
 			backgroundColor: bgColor,
 			blendMode: 'source-over',
 			series: [{
-					name: 'K线周期图表',
+					name: 'K-line',
 					type: 'candlestick',
 					data: data.datas,
 					barWidth: '55%',
