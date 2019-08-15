@@ -19,7 +19,7 @@ public class GetDataUtil {
 
 
     @Autowired
-    PythonDataReader pythonDataReader;
+    public PythonDataReader pythonDataReader;
 
 
     public ArrayList<MinuteData> getDataWith1Min(String symbol, String date) {
@@ -43,9 +43,9 @@ public class GetDataUtil {
         return data;
     }
 
-    public ArrayList<DailyData> getDataWith1Day(String symbol) {
-        ArrayList<DailyData> data = new ArrayList<>();
-        data = readDailyData(symbol,null);
+    public List<Data> getDataWith1Day(String symbol, String start, String end) {
+        List<Data> data = this.pythonDataReader.GetDataBySymbolSlice(symbol,"day","1",start, end);
+        // data = readDailyData(symbol,null);
         return data;
     }
 

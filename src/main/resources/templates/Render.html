@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Echarts</title>
+    <script src="js/echarts.min.js"></script>
+</head>
+<body>
+<button onclick="update()">Update</button>
+<div>
+    <span><label>symbol</label><input id="symbol" value="a"></span>
+    <span><label>start</label><input id="start" value="2016"></span>
+</div>
+<div id="chart"  style="width: 80%;height: 600px;"></div>
+<div id="4c77712c53d44c4ab083399438767d54" style="width:800px;height:400px;"></div>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    var symbol = "a";
+    var start = "2016";
+    var first = true;
+    function update() {
+        if(first){
+            var myChart = echarts.init(document.getElementById('chart'));
+            first = false;
+        }
+
+        else{
+            var myChart = echarts.getInstanceByDom(document.getElementById('chart'));
+            myChart.dispose();
+            myChart = echarts.init(document.getElementById('chart'));
+        }
+        myChart.showLoading();
+        symbol = $('#symbol').val();
+        start = $('#start').val()+"-01-01";
+        end = $('#start').val()+"-12-31";
+        var maxVolume = 0;
+
+        $.ajax({
+            type: "GET",
+            url: "http://127.0.0.1:8081/api/data/data/yahoo/" + symbol+
+                "/" + start + "_" + end ,
+            data: "",
+            dataType: '',
+            contentType: "application/json; charset=utf-8",
+            async: false,
+            success: function (msg) {
+                var data = [];
+                var count = msg.length;
+                function getData(){
+                    for(var index=0; index<count;index++){
+                        if(msg[index].volume > maxVolume)
+                            maxVolume = msg[index].volume;
+                        data.push([
+                            echarts.format.formatTime('yyyy-MM-dd', msg[index]["Date"]),
+                            msg[index].volume
+                        ]);
+                    }
+                    return data;
+                }
+                getData();
+                var option = {
+                    backgroundColor: '#404a59',
+
+                    title:{
+                        top: 30,
+                        text: 'VOLUME',
+                        left: 'center',
+                        textStyle:{
+                            color:'#fff'
+                        }
+                    },
+                    tooltip:{
+                        trigger:'item'
+                    },
+                    legend:{
+                        top:'30',
+                        left:'100',
+                        data:['Volume', 'Top 50'],
+                        textStyle:{
+                            color:'#fff'
+                        }
+                    },
+                    calendar:[{
+                        top: 100,
+                        left: 'center',
+                        range:[start, $('#start').val()+'-06-30'],
+                        splitLine:{
+                            show: true,
+                            lineStyle:{
+                                color: '#000',
+                                width: 4,
+                                type: 'solid'
+                            }
+                        },
+                        yearLabel: {
+                            formatter: $('#start').val()+' 1st',
+                            textStyle: {
+                                color: '#fff'
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: '#323c48',
+                                borderWidth: 1,
+                                borderColor: '#111'
+                            }
+                        }
+                    },, {
+                        top: 340,
+                        left: 'center',
+                        range: [$('#start').val()+'-06-30', end],
+                        splitLine: {
+                            show: true,
+                            lineStyle: {
+                                color: '#000',
+                                width: 4,
+                                type: 'solid'
+                            }
+                        },
+                        yearLabel: {
+                            formatter: $('#start').val()+'  2nd',
+                            textStyle: {
+                                color: '#fff'
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: '#323c48',
+                                borderWidth: 1,
+                                borderColor: '#111'
+                            }
+                        }
+                    }],
+                    series:[
+                        {
+                            name: 'Volume',
+                            type: 'scatter',
+                            coordinateSystem: 'calendar',
+                            data: data,
+                            symbolSize: function (val) {
+                                return val[1] / maxVolume * 30;
+                            },
+                            itemStyle: {
+                                normal: {
+                                    color: '#ddb926'
+                                }
+                            }
+                        },
+                        {
+                            name: 'Volume',
+                            type: 'scatter',
+                            coordinateSystem: 'calendar',
+                            calendarIndex: 1,
+                            data: data,
+                            symbolSize: function (val) {
+                                return val[1] / maxVolume * 30;
+                            },
+                            itemStyle: {
+                                normal: {
+                                    color: '#ddb926'
+                                }
+                            }
+                        },
+                        {
+                            name: 'Top 50',
+                            type: 'effectScatter',
+                            coordinateSystem: 'calendar',
+                            calendarIndex: 1,
+                            data: data.sort(function (a, b) {
+                                return b[1] - a[1];
+                            }).slice(0, 50),
+                            symbolSize: function (val) {
+                                return val[1] / maxVolume * 30;
+                            },
+                            showEffectOn: 'render',
+                            rippleEffect: {
+                                brushType: 'stroke'
+                            },
+                            hoverAnimation: true,
+                            itemStyle: {
+                                normal: {
+                                    color: '#f4e925',
+                                    shadowBlur: 10,
+                                    shadowColor: '#333'
+                                }
+                            },
+                            zlevel: 1
+                        },{
+                            name: 'Top 50',
+                            type: 'effectScatter',
+                            coordinateSystem: 'calendar',
+                            data: data.sort(function (a, b) {
+                                return b[1] - a[1];
+                            }).slice(0, 50),
+                            symbolSize: function (val) {
+                                return val[1] / maxVolume * 30;
+                            },
+                            showEffectOn: 'render',
+                            rippleEffect: {
+                                brushType: 'stroke'
+                            },
+                            hoverAnimation: true,
+                            itemStyle: {
+                                normal: {
+                                    color: '#f4e925',
+                                    shadowBlur: 10,
+                                    shadowColor: '#333'
+                                }
+                            },
+                            zlevel: 1
+                        }
+                        ]
+
+                };
+                myChart.hideLoading();
+                myChart.setOption(option);
+                // $('#chart').html(msg);
+            }
+        });
+    };
+
+</script>
+</body>
+</html>

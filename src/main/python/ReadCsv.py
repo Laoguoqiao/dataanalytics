@@ -11,8 +11,12 @@ import os
 from datetime import datetime
 from datetime import timedelta
 from Indicator import Indicator
+from pyecharts import Line, Bar, Overlap, Grid
 
 
+def str2date(str,date_format="%Y-%m-%d"):
+    date = datetime.strptime(str, date_format)
+    return date.date()
 
 class ReadCsv :
     def __init__(self,
@@ -94,7 +98,8 @@ class ReadCsv :
         else:
             return df
 
-    def get_data_by_symbol_slice(self, symbol, flag, slices, start='', end='', MACD=False, RSI=False, KDJ=False) :
+    def get_data_by_symbol_slice(self, symbol, flag, slices, start='', end='',
+                                 MACD=False, RSI=False, KDJ=False, json=True) :
         data = self.get_data_by_symbol(symbol, slices=slices, flag=flag, start=start, end=end, json=False)
         if MACD:
             data = self.indicator.MACD(data)
@@ -102,7 +107,78 @@ class ReadCsv :
             data = self.indicator.RSI(data)
         if KDJ:
             data = self.indicator.KDJ(data)
-        return data.T.to_json()
+        if json:
+            return data.T.to_json()
+        else:
+            return data
+
+    def get_chart_html(self, symbol, flag, slices, start='',end='',
+                       MACD=False, RSI=False, KDJ=False):
+        data = self.get_data_by_symbol_slice(symbol, slices=slices, flag=flag, start=start, end=end,
+                                             MACD=MACD, RSI=RSI, KDJ=KDJ, json=True)
+        return self.render_data(symbol, flag, data, MACD, RSI, KDJ)
+
+    def render_data(self, symbol, flag, data, MACD, RSI, KDJ) :
+        label = eval(data)
+        bar = Line(title=symbol, title_top="45%")
+        volumnbar = Bar("Volume")
+        indicate = Bar("Indicator")
+        Date = []
+        for key in label.keys() :
+            if flag == 'day':
+                Date.append(str2date(key))
+            else:
+                time = datetime.strptime(key, "%Y-%m-%d %H%M%S")
+                Date.append(time)
+        Open, High, Low, Close, Volume, Split, Earning, Dividends = [], [], [], [], [], [], [], []
+        if MACD: macd = []
+        if RSI: rsi = []
+        if KDJ: kdj =[]
+        for values in label.values() :
+            Open.append(values['Open'])
+            High.append(values['High'])
+            Low.append(values['Low'])
+            Close.append(values['Close'])
+            Volume.append(values['Volume'])
+            Split.append(values['Split Factor'])
+            Earning.append(values['Earnings'])
+            Dividends.append(values['Dividends'])
+            if MACD: macd.append(values['MACD'])
+            if RSI : rsi.append(values['RSI9'])
+            if KDJ : kdj.append(values['J'])
+
+        # bar.add(name='Open', x_axis=Date, y_axis=Open, is_smooth=True, symbol=None,
+        #         mark_point=[ "max", "min"], mark_line=["average"],
+        #         mark_point_symbolsize=30)
+        # bar.add(name='High', x_axis=Date, y_axis=High, is_smooth=True)
+        # bar.add(name='Low', x_axis=Date, y_axis=Low, is_smooth=True)
+        bar.add(name='Close', x_axis=Date, y_axis=Close, is_smooth=True, symbol=None,
+                mark_point=["max", "min"], mark_line=["average"], #line_color='lightgreen',
+                mark_point_symbolsize=30)
+        volumnbar.add(name='Volume', x_axis=Date, y_axis=Volume, border_color='lightgreen')
+        # bar.add(name='Split', x_axis=Date, y_axis=Split, is_fill=True, is_smooth=True)
+        # bar.add(name='Earning', x_axis=Date, y_axis=Earning, is_fill=True, is_smooth=True)
+        # bar.add(name='Dividends', x_axis=Date, y_axis=Dividends, is_fill=True, is_smooth=True)
+        if MACD: indicate.add(name='MACD', x_axis=Date, y_axis=macd)
+        if RSI: indicate.add(name='RSI', x_axis=Date, y_axis=rsi)
+        if KDJ: indicate.add(name='KDJ', x_axis=Date, y_axis=kdj)
+
+        overlap = Overlap()
+        overlap.add(bar)
+        overlap.add(volumnbar, yaxis_index=1, is_add_yaxis=True)
+        if MACD or RSI or KDJ:
+            grid = Grid()
+            grid.add(overlap, grid_bottom="60%")
+            grid.add(indicate, grid_top="60%")
+            grid.use_theme('dark')
+            return grid.render_embed()
+
+        else:
+
+            overlap.use_theme('dark')
+            return overlap.render_embed()
+
+
 
 def ReIndex(df) :
 

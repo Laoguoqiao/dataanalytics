@@ -25,4 +25,7 @@ public interface PythonClient {
 
     @RequestMapping(value = "/getYahooData", method = RequestMethod.POST, consumes="application/json")
     String pythonGetYahooData(Map map);
+
+    @RequestMapping(value = "/getChartHtml", method = RequestMethod.POST, consumes="application/json")
+    String pythonGetChartHtml(Map map);
 }
