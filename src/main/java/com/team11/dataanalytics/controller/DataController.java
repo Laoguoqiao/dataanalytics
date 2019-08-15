@@ -46,6 +46,30 @@ public class DataController {
         return getDataUtil.getDataWith5Min(symbol,date);
     }
 
+    @ApiOperation(value="获取股票15分钟数据", notes="根据symbol获取股票15分钟数据")
+    @GetMapping(value = "/data/15/{symbol}/{date}")
+    @ResponseStatus(HttpStatus.OK)
+    public Object getDataWith15Min(@PathVariable("symbol") String symbol,@PathVariable("date")String date) throws NotFoundException
+    {
+        return getDataUtil.getDataWith15Min(symbol,date);
+    }
+
+    @ApiOperation(value="获取股票30分钟数据", notes="根据symbol获取股票30分钟数据")
+    @GetMapping(value = "/data/30/{symbol}/{date}")
+    @ResponseStatus(HttpStatus.OK)
+    public Object getDataWith30Min(@PathVariable("symbol") String symbol,@PathVariable("date")String date) throws NotFoundException
+    {
+        return getDataUtil.getDataWith30Min(symbol,date);
+    }
+
+    @ApiOperation(value="获取股票60分钟数据", notes="根据symbol获取股票60分钟数据")
+    @GetMapping(value = "/data/60/{symbol}/{date}")
+    @ResponseStatus(HttpStatus.OK)
+    public Object getDataWith60Min(@PathVariable("symbol") String symbol,@PathVariable("date")String date) throws NotFoundException
+    {
+        return getDataUtil.getDataWith60Min(symbol,date);
+    }
+
     @CrossOrigin
     @ApiOperation(value = "获取一天的数据")
     @RequestMapping(value = "/data/1day/{symbol}", method = RequestMethod.GET)

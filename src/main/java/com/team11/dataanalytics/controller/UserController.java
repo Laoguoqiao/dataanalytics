@@ -19,6 +19,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    private User userModel;
+
     @ApiOperation(value="获取用户列表", notes="获取用户列表")
     @GetMapping(value = "/users")
     @ResponseStatus(HttpStatus.OK)
@@ -72,7 +74,10 @@ public class UserController {
         boolean verify=userService.verifyUser(user);
         if(verify)
         {
-            request.getSession().setAttribute("user",user.getAccount());
+            userModel = (User) userService.getUser(user.getAccount(), user.getPassword());
+            request.getSession().setAttribute("userAccount", userModel.getAccount());
+            request.getSession().setAttribute("userID", userModel.getUid());
+            request.getSession().setAttribute("userPassword", userModel.getPassword());
             return "Success";
         }
         else
@@ -81,6 +86,12 @@ public class UserController {
         }
     }
 
+    //在每个界面中获取当前的user对象
+    @GetMapping("/getUser")
+    @ResponseStatus(HttpStatus.OK)
+    public User getUser(){
+        return userModel;
+    }
 
 
     @ApiOperation(value="测试")

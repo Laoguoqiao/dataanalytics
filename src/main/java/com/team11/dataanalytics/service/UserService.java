@@ -77,4 +77,13 @@ public class UserService {
         return isSuccess;
     }
 
+    public Object getUser(String account, String password){
+        List<User> users = getUserList();
+        for(User user:users){
+            if(user.getAccount().equals(account) && user.getPassword().equals(password))
+                return user;
+        }
+        return "No Such User!";
+    }
+
 }

@@ -43,6 +43,27 @@ public class GetDataUtil {
         return data;
     }
 
+    public ArrayList<MinuteData> getDataWith15Min(String symbol, String date) {
+        ArrayList<MinuteData> data = new ArrayList<>();
+        data = readMinuteData(symbol, date, date, "min", "15");
+        ;
+        return data;
+    }
+
+    public ArrayList<MinuteData> getDataWith30Min(String symbol, String date) {
+        ArrayList<MinuteData> data = new ArrayList<>();
+        data = readMinuteData(symbol, date, date, "min", "30");
+        ;
+        return data;
+    }
+
+    public ArrayList<MinuteData> getDataWith60Min(String symbol, String date) {
+        ArrayList<MinuteData> data = new ArrayList<>();
+        data = readMinuteData(symbol, date, date, "min", "60");
+        ;
+        return data;
+    }
+
     public ArrayList<DailyData> getDataWith1Day(String symbol) {
         ArrayList<DailyData> data = new ArrayList<>();
         data = readDailyData(symbol,null);
