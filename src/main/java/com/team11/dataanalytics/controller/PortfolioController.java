@@ -30,7 +30,7 @@ public class PortfolioController {
 
     @SystemLog("添加投资组合")
     @ApiOperation(value="添加投资组合", notes="添加投资组合")
-    @PostMapping(value = "/stocks")
+    @PostMapping(value = "/stock")
     @ResponseStatus(HttpStatus.CREATED)
     public Object addPortfolio(@RequestBody Portfolio portfolio){
         return portfolioService.addPortfolio(portfolio);

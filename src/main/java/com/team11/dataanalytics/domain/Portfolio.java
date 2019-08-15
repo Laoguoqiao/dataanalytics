@@ -1,12 +1,14 @@
 package com.team11.dataanalytics.domain;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
 @Entity
 public class Portfolio {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "pid")
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String pid;
     private String uid;
     private String portfolioName;

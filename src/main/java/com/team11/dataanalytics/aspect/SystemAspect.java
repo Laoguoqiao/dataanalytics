@@ -61,8 +61,8 @@ public class SystemAspect {
         //请求的参数
         Object[] args = joinPoint.getArgs();
         //将参数所在的数组转换成json
-//        String params = JSON.toJSONString(args);
-//        sysLog.setParams(params);
+        String params = JSON.toJSONString(args);
+        sysLog.setParams(params);
 
         sysLog.setCreateDate(new Date());
         //获取用户名
