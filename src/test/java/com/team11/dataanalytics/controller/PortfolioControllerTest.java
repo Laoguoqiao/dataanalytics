@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.team11.dataanalytics.DataAnalyticsApplication;
 import com.team11.dataanalytics.domain.Portfolio;
 import com.team11.dataanalytics.service.PortfolioService;
+import org.hibernate.annotations.Target;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -72,6 +73,36 @@ public class PortfolioControllerTest {
         ).andExpect(status().is2xxSuccessful()).
                 andDo(print()).andReturn().getResponse().getContentAsString();
 
+    }
+
+    @Test
+    public void updatePortfolioSymbol() throws Exception {
+        Portfolio portfolio=new Portfolio();
+        portfolio.setPid("4028ab766c93b619016c93b636830000");
+        portfolio.setStockList("a,aa");
+        portfolio.setUid("l");
+        String responseString = mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/portfolio/updateStocks/{symbol}","aa").
+                        contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JSON.toJSON(portfolio).toString())
+        ).andExpect(status().is2xxSuccessful()).
+                andDo(print()).andReturn().getResponse().getContentAsString();
+    }
+
+    @Test
+    public void addToPortfolio() throws Exception{
+        Portfolio portfolio=new Portfolio();
+        portfolio.setPid("4028ab766c93b619016c93b636830000");
+        portfolio.setStockList("a,bbb");
+        portfolio.setUid("l");
+        String responseString = mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/portfolio/addToPortfolio").
+                        contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JSON.toJSON(portfolio).toString())
+        ).andExpect(status().is2xxSuccessful()).
+                andDo(print()).andReturn().getResponse().getContentAsString();
     }
 
     @Test

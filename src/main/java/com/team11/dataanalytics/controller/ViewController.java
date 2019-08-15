@@ -25,4 +25,11 @@ public class ViewController {
 
         return "tables_dynamic";
     }
+
+    @RequestMapping(value = "/profile")
+    public String profile()
+    {
+
+        return "profile";
+    }
 }

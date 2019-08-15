@@ -2,21 +2,22 @@ package com.team11.dataanalytics.controller;
 
 import com.team11.dataanalytics.annotation.SystemLog;
 import com.team11.dataanalytics.domain.Portfolio;
-import com.team11.dataanalytics.domain.Stock;
 import com.team11.dataanalytics.service.PortfolioService;
-import com.team11.dataanalytics.service.StockService;
 import io.swagger.annotations.ApiOperation;
 import javassist.NotFoundException;
+import org.hibernate.ObjectDeletedException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/portfolio")
 public class PortfolioController {
+
     @Autowired
     private PortfolioService portfolioService;
 
@@ -62,7 +63,20 @@ public class PortfolioController {
         return portfolioService.update(id,portfolio);
     }
 
+    //delete
+    @ApiOperation(value="更新投资组合中的股票", notes="更新投资组合股票")
+    @RequestMapping(value = "/updateStocks/{symbol}", method=RequestMethod.POST)
+    public Object updatePortfolioSymbol(@PathVariable("symbol") String symbol, @RequestBody Portfolio portfolio) throws NotFoundException {
+        System.out.println("=====================================");
+        return portfolioService.updatePortfolioSymbol(symbol,portfolio);
+    }
+    // add part of portfoliolist
+    @RequestMapping(value="/addToPortfolio", method=RequestMethod.POST)
+    public Object addToPortfolio(@RequestBody Portfolio portfolio, HttpServletRequest request) throws ObjectDeletedException,IllegalArgumentException,InvalidDataAccessApiUsageException {
+        String verify = portfolioService.addPortfolio(portfolio);
 
+        return verify;
+    }
     @ApiOperation(value="测试")
     @GetMapping(value = "/test")
     @ResponseStatus(HttpStatus.OK)

@@ -3,6 +3,7 @@ package com.team11.dataanalytics.domain;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Portfolio {
@@ -11,7 +12,6 @@ public class Portfolio {
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String pid;
     private String uid;
-    private String portfolioName;
     private String stockList;
 
     public String getPid() {
@@ -30,19 +30,21 @@ public class Portfolio {
         this.uid = uid;
     }
 
-    public String getPortfolioName() {
-        return portfolioName;
-    }
-
-    public void setPortfolioName(String portfolioName) {
-        this.portfolioName = portfolioName;
-    }
-
     public String getStockList() {
         return stockList;
     }
 
     public void setStockList(String stockList) {
         this.stockList = stockList;
+    }
+
+    public void updateStockList(List<String> stockList){
+        StringBuilder sb = new StringBuilder();
+        for(int i=0; i<stockList.size()-1;i++){
+            sb.append(stockList.get(i));
+            sb.append(",");
+        }
+        sb.append(stockList.get(stockList.size()-1));
+        this.setStockList(sb.toString());
     }
 }
